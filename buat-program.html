@@ -1,0 +1,1420 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Buat Program - N6 sport</title>
+    <meta name="description" content="Generate program latihan lari dan hitung pace target Anda." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" type="image/jpeg" href="assets/img/Logo_20260211_181440_0000.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        neon: '#e10600',
+                        ink: '#000000',
+                        slateish: '#737373',
+                        accent: '#ff0b05',
+                        muted: '#737373',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                        'glass-hover': 'rgba(255, 255, 255, 0.06)'
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .wizard-step {
+            display: none;
+        }
+
+        .wizard-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 640px) {
+            #hitung-program .calc-table-wrap {
+                overflow-x: visible;
+                padding: 0.5rem;
+            }
+
+            #hitung-program table {
+                min-width: 0 !important;
+                width: 100%;
+            }
+
+            #hitung-program thead {
+                display: none;
+            }
+
+            #hitung-program tbody tr {
+                display: block;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 0.75rem;
+                padding: 0.25rem 0.5rem;
+                margin-bottom: 0.75rem;
+                background: rgba(255, 255, 255, 0.02);
+            }
+
+            #hitung-program tbody td {
+                display: block;
+                width: 100%;
+                padding: 0.45rem 0.25rem;
+                border: 0 !important;
+            }
+
+            #hitung-program tbody td::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 9px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                color: #737373;
+                margin-bottom: 0.25rem;
+            }
+
+            #hitung-program tbody td select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white font-sans antialiased overflow-x-hidden">
+    <div class="min-h-screen flex flex-col overflow-x-hidden">
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-dark/95 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="h-20 flex items-center justify-between">
+                    <a href="#" class="flex items-center gap-3 font-display font-bold tracking-tighter text-2xl group">
+                        <img src="assets/img/Logo_20260211_181440_0000.png" alt="Logo Ayo Lari"
+                            class="h-10 w-10 object-cover rounded-lg border border-white/0" />
+                    </a>
+
+                    <div
+                        class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-slateish">
+                        <a class="hover:text-neon transition-colors" href="index.html">HOME</a>
+                        <a class="hover:text-neon transition-colors" href="index.html#features">Fitur</a>
+                        <a class="hover:text-neon transition-colors" href="index.html#programs">Program</a>
+                        <a class="hover:text-neon transition-colors" href="pages/tools.html">Tools</a>
+                        <a class="hover:text-neon transition-colors" href="index.html#qna">Q&amp;A</a>
+                    </div>
+
+                    <button id="mobile-menu-btn" class="md:hidden p-2 border border-white/10 text-white">
+                        <span class="sr-only">Toggle menu</span>
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden border-t border-white/5 bg-black">
+                <div class="px-4 py-6 space-y-4 text-sm font-bold uppercase tracking-widest">
+                    <a class="block hover:text-neon" href="index.html#problem">Problem</a>
+                    <a class="block hover:text-neon" href="index.html#features">Fitur</a>
+                    <a class="block hover:text-neon" href="index.html#programs">Program</a>
+                    <a class="block hover:text-neon" href="pages/tools.html">Tools</a>
+                    <a class="block hover:text-neon" href="index.html#qna">Q&amp;A</a>
+                    <div class="pt-4 border-t border-white/5 space-y-4">
+                        <a class="block text-neon" href="pages/program-5k.html">Program 5K</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-grow pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-5xl mx-auto">
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-white/10 mb-8 overflow-x-auto hide-scrollbar">
+                    <button onclick="switchTab('buat-program')" id="tab-btn-buat-program"
+                        class="tab-btn active px-8 py-4 font-display font-bold uppercase tracking-widest text-sm border-b-2 border-neon text-white">
+                        Buat Program
+                    </button>
+                    <button onclick="switchTab('hitung-program')" id="tab-btn-hitung-program"
+                        class="tab-btn px-8 py-4 font-display font-bold uppercase tracking-widest text-sm border-b-2 border-transparent text-slateish hover:text-white transition-all">
+                        Hitung Program
+                    </button>
+                </div>
+
+                <!-- Tab Contents -->
+                <div id="buat-program" class="tab-content active">
+                    <div class="bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                        <!-- Wizard Header -->
+                        <div class="p-4 md:p-6 border-b border-white/5 bg-white/5 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div id="wizard-step-indicator"
+                                    class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-neon text-black flex items-center justify-center font-bold font-display text-sm md:text-base">
+                                    1</div>
+                                <div>
+                                    <h3 id="wizard-step-title"
+                                        class="font-display font-bold uppercase tracking-tight text-sm md:text-base">
+                                        Data Dasar Atlet</h3>
+                                    <p id="wizard-step-counter"
+                                        class="text-[10px] text-slateish uppercase tracking-widest font-bold">Step 1
+                                        dari
+                                        4</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-1">
+                                <template id="step-dots-template">
+                                    <div class="w-2 h-2 rounded-full bg-white/10"></div>
+                                </template>
+                                <div id="step-dots" class="flex gap-2">
+                                    <div class="w-8 h-2 rounded-full bg-neon"></div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10"></div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10"></div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wizard Body -->
+                        <div class="p-5 md:p-8">
+                            <!-- Step 1: Data Dasar -->
+                            <div id="step-1" class="wizard-step active space-y-6 md:space-y-8">
+                                <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                                    <div class="space-y-4">
+                                        <label class="block text-xs font-bold uppercase tracking-widest text-neon">Nama
+                                            Lengkap *</label>
+                                        <input type="text" id="athlete-name" placeholder="Nama Atlet"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon focus:ring-1 focus:ring-neon transition-all outline-none">
+                                    </div>
+                                    <div class="space-y-4">
+                                        <label class="block text-xs font-bold uppercase tracking-widest text-neon">Usia
+                                            (Tahun) *</label>
+                                        <input type="number" id="athlete-age" placeholder="Contoh: 25"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon focus:ring-1 focus:ring-neon transition-all outline-none">
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-8 border-t border-white/5 pt-8">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center justify-between">
+                                            <label
+                                                class="block text-xs font-bold uppercase tracking-widest text-neon">Personal
+                                                Best (PB) *</label>
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="text-[9px] font-bold uppercase tracking-widest text-slateish">Tes
+                                                    12m</span>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" id="step1-mode-switch" class="sr-only peer"
+                                                        onchange="toggleStep1TestMode(this.checked)">
+                                                    <div
+                                                        class="w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-neon">
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select id="pb-event"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-3 py-3 text-xs focus:border-neon transition-all outline-none">
+                                                <option value="5K">5K</option>
+                                                <option value="10K">10K</option>
+                                                <option value="HM">Half Marathon</option>
+                                                <option value="FM">Full Marathon</option>
+                                            </select>
+                                            <input type="text" id="pb-time" placeholder="HH:MM:SS"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-3 py-3 text-xs focus:border-neon transition-all outline-none">
+                                        </div>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Target
+                                            Race (SUB) *</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <select id="target-event"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-3 py-3 text-xs focus:border-neon transition-all outline-none">
+                                                <option value="5K">5K</option>
+                                                <option value="10K">10K</option>
+                                                <option value="HM">Half Marathon</option>
+                                                <option value="FM">Full Marathon</option>
+                                            </select>
+                                            <input type="text" id="target-time" placeholder="HH:MM:SS"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-3 py-3 text-xs focus:border-neon transition-all outline-none">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-6 md:gap-8 border-t border-white/5 pt-6 md:pt-8">
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Tanggal
+                                            Mulai *</label>
+                                        <input type="date" id="start-date"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon transition-all outline-none [color-scheme:dark]">
+                                    </div>
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Tanggal
+                                            Selesai *</label>
+                                        <input type="date" id="end-date"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon transition-all outline-none [color-scheme:dark]">
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-6 md:gap-8 border-t border-white/5 pt-6 md:pt-8">
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Resting
+                                            HR (Optional)</label>
+                                        <input type="number" id="resting-hr" placeholder="BMP"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon transition-all outline-none">
+                                    </div>
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Program
+                                            *</label>
+                                        <select id="coach-notes"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon transition-all outline-none">
+                                            <option value="">Pilih Program...</option>
+                                            <option value="Persiapan umum">Persiapan umum</option>
+                                            <option value="Persiapan khusus">Persiapan khusus</option>
+                                            <option value="Pra Kompetisi">Pra Kompetisi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Other Steps (Placeholders) -->
+                            <div id="step-2" class="wizard-step"></div>
+                            <div id="step-3" class="wizard-step"></div>
+                            <div id="step-4" class="wizard-step"></div>
+                        </div>
+
+                        <div class="p-5 md:p-6 border-t border-white/5 bg-white/5 flex flex-wrap gap-4 justify-between">
+                            <button id="prev-btn" onclick="wizardPrev()"
+                                class="px-8 py-3 rounded-xl border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white/5 transition-all opacity-0 pointer-events-none">Kembali</button>
+                            <div class="flex gap-4">
+                                <!--<button id="simulate-btn" onclick="simulateData()"
+                                    class="px-8 py-3 rounded-xl border border-neon/50 text-neon text-xs font-bold uppercase tracking-widest hover:bg-neon/10 transition-all">Simulasi
+                                    Data</button>-->
+                                <button id="next-btn" onclick="wizardNext()"
+                                    class="px-8 py-3 rounded-xl bg-neon text-black font-display font-bold uppercase tracking-widest hover:bg-accent transition-all">Lanjut</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hitung-program" class="tab-content">
+                    <div class="bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="p-8 border-b border-white/5 bg-gradient-to-r from-neon/10 to-transparent">
+                            <h2 class="text-3xl font-display font-bold uppercase tracking-tight">Kalkulator Pace Target
+                            </h2>
+                            <p class="text-slateish mt-2 uppercase text-xs font-bold tracking-widest">Hitung intensitas
+                                latihan berdasarkan target SUB</p>
+                        </div>
+
+                        <div class="p-4 md:p-8 space-y-8">
+                            <!-- Input Rows -->
+                            <div class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-12">
+                                    <div class="space-y-4">
+                                        <div class="flex items-center justify-between">
+                                            <label
+                                                class="block text-xs font-bold uppercase tracking-widest text-neon">Nama
+                                                Atlet</label>
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="text-[9px] font-bold uppercase tracking-widest text-slateish">Tes
+                                                    12m</span>
+                                                <label class="relative inline-flex items-center cursor-pointer">
+                                                    <input type="checkbox" id="mode-switch" class="sr-only peer"
+                                                        onchange="toggleTestMode(this.checked)">
+                                                    <div
+                                                        class="w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-neon">
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input type="text" id="calc-athlete-name" placeholder="Nama Lengkap"
+                                            class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon outline-none"
+                                            value="">
+                                    </div>
+                                    <div class="space-y-4">
+                                        <label class="block text-xs font-bold uppercase tracking-widest text-neon">Data
+                                            Personal Best (PB)</label>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                            <select id="calc-pb-event" onchange="calculatePace()"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon outline-none">
+                                                <option value="5000">5K</option>
+                                                <option value="10000">10K</option>
+                                                <option value="21097.5">Half Marathon</option>
+                                                <option value="42195">Marathon</option>
+                                            </select>
+                                            <input type="text" id="calc-pb-time" oninput="calculatePace()"
+                                                placeholder="HH:MM:SS"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon outline-none"
+                                                value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-12">
+                                    <div class="space-y-4">
+                                        <label
+                                            class="block text-xs font-bold uppercase tracking-widest text-neon">Target
+                                            SUB / Race</label>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                                            <select id="calc-target-event" onchange="calculatePace()"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon outline-none">
+                                                <option value="5000">5K</option>
+                                                <option value="10000" selected>10K</option>
+                                                <option value="21097.5">Half Marathon</option>
+                                                <option value="42195">Marathon</option>
+                                            </select>
+                                            <input type="text" id="calc-target-time" oninput="calculatePace()"
+                                                placeholder="HH:MM:SS"
+                                                class="bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:border-neon outline-none"
+                                                value="">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-end gap-3 flex-wrap">
+                                        <button onclick="calculatePace()"
+                                            class="flex-grow bg-neon text-black font-display font-bold py-3 rounded-xl hover:bg-accent transition-all shadow-[0_0_20px_rgba(225,6,0,0.3)] uppercase tracking-widest text-sm">Hitung
+                                            Semua</button>
+                                        <!--<button onclick="simulateCalc()"
+                                            class="px-6 py-3 rounded-xl border border-neon/50 text-neon text-xs font-bold uppercase tracking-widest hover:bg-neon/10 transition-all">Simulasi</button>-->
+                                        <button onclick="downloadCalcPDF()"
+                                            class="px-6 py-3 rounded-xl bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-neon hover:text-white transition-all">Export
+                                            PDF</button>
+                                    </div>
+                                </div>
+
+                                <div class="grid md:grid-cols-3 gap-6 md:gap-8 pt-8 border-t border-white/5">
+                                    <div class="md:col-span-2 space-y-4">
+                                        <div
+                                            class="calc-table-wrap overflow-x-auto bg-black/30 rounded-2xl border border-white/5 p-2 sm:p-4">
+                                            <table
+                                                class="w-full text-left border-collapse min-w-[640px] sm:min-w-[640px]">
+                                                <thead>
+                                                    <tr
+                                                        class="text-[9px] sm:text-[10px] uppercase tracking-[0.12em] sm:tracking-widest text-slateish border-b border-white/5">
+                                                        <th class="py-3 px-2">Row</th>
+                                                        <th class="py-3 px-1.5 sm:px-2">Pct (%)</th>
+                                                        <th class="py-3 px-1.5 sm:px-2">Dist (m)</th>
+                                                        <th class="py-3 px-1.5 sm:px-2 text-white">Pace</th>
+                                                        <th class="py-3 px-1.5 sm:px-2 text-neon">Rep</th>
+                                                        <th class="py-3 px-2">Race</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="calc-rows-container">
+                                                    <!-- JS will populate 7 rows -->
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Highlight Results Card (restored) -->
+                                    <div
+                                        class="bg-white/5 rounded-2xl p-4 sm:p-6 border border-white/10 flex flex-col justify-center text-center space-y-5 sm:space-y-6">
+                                        <div class="space-y-1">
+                                            <div
+                                                class="text-[9px] sm:text-[10px] uppercase tracking-[0.14em] sm:tracking-[0.2em] text-slateish font-bold">
+                                                Pace Utama (Row 1)</div>
+                                            <div id="main-res-pace"
+                                                class="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white tracking-tighter">
+                                                --:--</div>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/5 pt-4">
+                                            <div class="space-y-0.5">
+                                                <div
+                                                    class="text-[9px] uppercase tracking-[0.12em] sm:tracking-widest text-slateish font-bold">
+                                                    Waktu Rep</div>
+                                                <div id="main-res-rep"
+                                                    class="text-lg md:text-xl font-display font-bold text-neon">
+                                                    --:--</div>
+                                            </div>
+                                            <div class="space-y-0.5">
+                                                <div
+                                                    class="text-[9px] uppercase tracking-[0.12em] sm:tracking-widest text-slateish font-bold">
+                                                    Race Pace</div>
+                                                <div id="main-res-race"
+                                                    class="text-lg md:text-xl font-display font-bold text-white">--:--
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="main-res-info"
+                                            class="text-[9px] uppercase tracking-widest text-slateish leading-relaxed">
+                                            Lengkapi data dan klik hitung
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="border-t border-white/5 py-16 bg-black">
+            <div
+                class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slateish text-[10px] uppercase tracking-widest">
+                <div>Copyright 2026 N6. All rights reserved.</div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // --- CONSTANTS & DATA ---
+        let currentStep = 1;
+        let currentWeek = 1; // Track active week for editing
+        const totalSteps = 4;
+        const TOTAL_WEEKS = 5;
+        const WEEK_LIST = Array.from({ length: TOTAL_WEEKS }, (_, i) => i + 1);
+        const stepTitles = ["Data Dasar Atlet", `Jadwal Latihan (${TOTAL_WEEKS} Minggu)`, "Review Program", "Generate PDF"];
+        const days = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
+
+        // State for Step 2 persistence (7 days x TOTAL_WEEKS)
+        let wizardData = {
+            schedule: Array.from({ length: 7 * TOTAL_WEEKS }, (_, i) => ({
+                s1Type: "",
+                s1Note: "",
+                s2Type: "",
+                s2Note: "",
+                extraType: "",
+                extraNote: ""
+            }))
+        };
+        const programTypeData = {
+            "Easy Run": { min: 0.60, max: 0.75, note: "Aerobic base, recovery ringan" },
+            "Medium Run": { min: 0.70, max: 0.80, note: "Endurance menengah" },
+            "Tempo": { min: 0.80, max: 0.88, note: "Lactate threshold" },
+            "Long Run": { min: 0.65, max: 0.78, note: "Endurance panjang" },
+            "Fartlek": { min: 0.70, max: 0.90, note: "Variasi speed" },
+            "Jog-stride": { min: 0.60, max: 0.70, note: "Jog + strides" },
+            "Interval": { min: 0.85, max: 0.95, note: "High intensity" },
+            "Hill Run": { min: 0.80, max: 0.95, note: "Strength + power" },
+            "Cross Training": { min: 0.60, max: 0.80, note: "Low impact" },
+            "Threshold": { min: 0.82, max: 0.90, note: "Ambang laktat / race pace control" },
+            "Pace Tinggi": { min: 0.88, max: 0.96, note: "Kecepatan tinggi / VO2 stimulus" },
+            "Strength Training": { min: 0.65, max: 0.82, note: "Strength session" },
+            "Core": { min: 0.60, max: 0.75, note: "Core stability" },
+            "Drill": { min: 0.60, max: 0.78, note: "Drill koordinasi" },
+            "Teknik": { min: 0.60, max: 0.78, note: "Perbaikan teknik lari" },
+            "MAF Training": { special: "MAF", note: "180 - usia" },
+            "Rest Day": { min: 0, max: 0, note: "Recovery" }
+        };
+
+        // --- UTILITIES ---
+        function timeToSeconds(timeStr) {
+            if (!timeStr) return 0;
+            const parts = timeStr.split(':').map(Number);
+            if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            if (parts.length === 2) return parts[0] * 60 + parts[1];
+            return parts[0] || 0;
+        }
+
+        function secondsToTime(secs, includeHours = false, includeDecimals = false) {
+            const h = Math.floor(secs / 3600);
+            const m = Math.floor((secs % 3600) / 60);
+            const s = Math.floor(secs % 60);
+            const ms = Math.round((secs % 1) * 10);
+            
+            const parts = [];
+            if (includeHours || h > 0) parts.push(h.toString().padStart(2, '0'));
+            parts.push(m.toString().padStart(2, '0'));
+            
+            let secondsStr = s.toString().padStart(2, '0');
+            if (includeDecimals && ms > 0) {
+                secondsStr += `.${ms}`;
+            }
+            parts.push(secondsStr);
+            
+            return parts.join(':');
+        }
+
+        function calculateTargetHR(type, age, rhr) {
+            if (!type || !programTypeData[type]) return "--";
+            const data = programTypeData[type];
+            const hrMax = 220 - age;
+
+            if (data.special === "MAF") return `${180 - age - 5}-${180 - age} BPM`;
+            if (type === "Rest Day") return "REST";
+
+            const minHr = rhr > 0 ? Math.round(((hrMax - rhr) * data.min) + rhr) : Math.round(hrMax * data.min);
+            const maxHr = rhr > 0 ? Math.round(((hrMax - rhr) * data.max) + rhr) : Math.round(hrMax * data.max);
+            return `${minHr}-${maxHr} BPM`;
+        }
+
+        // --- PACE CALCULATOR ---
+        function calculatePace() {
+            const isTestMode = document.getElementById('mode-switch')?.checked;
+            const athleteName = document.getElementById('calc-athlete-name').value || "Athlete";
+
+            // Baseline for training pace (Use TARGET as baseline for training zones)
+            const targetDist = parseFloat(document.getElementById('calc-target-event').value);
+            const targetTimeSec = timeToSeconds(document.getElementById('calc-target-time').value);
+
+            if (!targetTimeSec || isNaN(targetDist)) return;
+
+            const baseSpeed = targetDist / targetTimeSec; // Target speed
+            const targetPaceSec = 1000 / baseSpeed;
+
+            for (let i = 0; i < 7; i++) {
+                const percent = parseFloat(document.getElementById(`calc-percent-${i}`).value);
+                const repDist = parseFloat(document.getElementById(`calc-rep-dist-${i}`).value);
+
+                const trainingSpeed = baseSpeed * (percent / 100);
+                const trainingPaceSec = 1000 / trainingSpeed;
+                const repTimeSec = repDist / trainingSpeed;
+
+                document.getElementById(`res-pace-${i}`).textContent = secondsToTime(trainingPaceSec);
+                // For rep time, include decimals for precision on short distances
+                document.getElementById(`res-rep-time-${i}`).textContent = secondsToTime(repTimeSec, false, true);
+                document.getElementById(`res-race-pace-${i}`).textContent = secondsToTime(targetPaceSec);
+
+                // Update main results card with Row 1 data
+                if (i === 0) {
+                    document.getElementById('main-res-pace').textContent = secondsToTime(trainingPaceSec);
+                    document.getElementById('main-res-rep').textContent = secondsToTime(repTimeSec, false, true);
+                    document.getElementById('main-res-race').textContent = secondsToTime(targetPaceSec);
+                    const modeLabel = isTestMode ? "Tes 12m" : "Race Mode";
+                    document.getElementById('main-res-info').textContent = `${athleteName} | ${modeLabel} @${percent}% | Target: ${secondsToTime(targetTimeSec, true)} | Speed: ${(trainingSpeed * 3.6).toFixed(2)} km/h`;
+                }
+            }
+        }
+
+        function simulateCalc() {
+            document.getElementById('calc-athlete-name').value = "Budi Santoso";
+            document.getElementById('calc-pb-event').value = "10000";
+            document.getElementById('calc-pb-time').value = "00:55:00";
+            document.getElementById('calc-target-event').value = "10000";
+            document.getElementById('calc-target-time').value = "00:48:00";
+
+            // Sequential percentages: 70, 80, 90, 100, 110, 120, 130
+            const percs = [70, 80, 90, 100, 110, 120, 130];
+            const dists = [400, 800, 1000, 2000, 400, 800, 1000];
+
+            for (let i = 0; i < 7; i++) {
+                document.getElementById(`calc-percent-${i}`).value = percs[i];
+                document.getElementById(`calc-rep-dist-${i}`).value = dists[i];
+            }
+
+            calculatePace();
+        }
+
+        function simulateData() {
+            // STEP 1
+            document.getElementById('athlete-name').value = "Budi Santoso";
+            document.getElementById('athlete-age').value = "29";
+            document.getElementById('pb-event').value = "10K";
+            document.getElementById('pb-time').value = "00:48:30";
+            document.getElementById('target-event').value = "HM";
+            document.getElementById('target-time').value = "01:45:00";
+            document.getElementById('start-date').value = "2026-03-01";
+            document.getElementById('end-date').value = "2026-04-04";
+            document.getElementById('resting-hr').value = "58";
+            document.getElementById('coach-notes').value = "Persiapan khusus";
+
+            // STEP 2 (Schedule) - 35 days, include S1/S2/Extra to match current feature set
+            const weeklyPatterns = [
+                [
+                    { s1Type: "Easy Run", s1Note: "8K easy + drill", s2Type: "Core", s2Note: "20 menit core", extraType: "Mobility", extraNote: "Hip mobility 15 menit" },
+                    { s1Type: "Tempo", s1Note: "WU 2K + 4K tempo + CD 2K", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Rest Day", s1Note: "Recovery total", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Interval", s1Note: "6 x 800m @ 10K pace", s2Type: "Easy Run", s2Note: "4K recovery", extraType: "Strength", extraNote: "Leg strength 25 menit" },
+                    { s1Type: "Easy Run", s1Note: "7K easy", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Jog-stride", s1Note: "5K jog + 6 stride", s2Type: "", s2Note: "", extraType: "Cycling", extraNote: "30 menit santai" },
+                    { s1Type: "Long Run", s1Note: "14K aerobic", s2Type: "", s2Note: "", extraType: "", extraNote: "" }
+                ],
+                [
+                    { s1Type: "Easy Run", s1Note: "8K easy", s2Type: "Drill", s2Note: "Form drill 15 menit", extraType: "", extraNote: "" },
+                    { s1Type: "Threshold", s1Note: "3 x 10 menit threshold", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Rest Day", s1Note: "Recovery total", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Interval", s1Note: "10 x 400m @ 5K pace", s2Type: "Easy Run", s2Note: "4K easy", extraType: "Strength", extraNote: "Upper + core 20 menit" },
+                    { s1Type: "Easy Run", s1Note: "7K easy", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Fartlek", s1Note: "45 detik cepat / 75 detik easy x 12", s2Type: "", s2Note: "", extraType: "Mobility", extraNote: "Foam rolling 15 menit" },
+                    { s1Type: "Long Run", s1Note: "16K aerobic", s2Type: "", s2Note: "", extraType: "", extraNote: "" }
+                ],
+                [
+                    { s1Type: "Easy Run", s1Note: "8K easy", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Tempo", s1Note: "2 x 3K tempo", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Rest Day", s1Note: "Recovery total", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Hill Run", s1Note: "10 x 200m uphill", s2Type: "Easy Run", s2Note: "5K recovery", extraType: "Strength", extraNote: "Posterior chain 20 menit" },
+                    { s1Type: "Easy Run", s1Note: "6K easy", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "MAF Training", s1Note: "40 menit MAF effort", s2Type: "", s2Note: "", extraType: "Cycling", extraNote: "20 menit easy spin" },
+                    { s1Type: "Long Run", s1Note: "17K aerobic", s2Type: "", s2Note: "", extraType: "", extraNote: "" }
+                ],
+                [
+                    { s1Type: "Rest Day", s1Note: "Recovery total", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Easy Run", s1Note: "7K easy", s2Type: "", s2Note: "", extraType: "Mobility", extraNote: "Ankle + hip" },
+                    { s1Type: "Threshold", s1Note: "20 menit threshold", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Easy Run", s1Note: "6K easy", s2Type: "Core", s2Note: "20 menit core", extraType: "", extraNote: "" },
+                    { s1Type: "Pace Tinggi", s1Note: "5 x 1K @ race pace", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Jog-stride", s1Note: "4K + 4 stride", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Long Run", s1Note: "14K ringan", s2Type: "", s2Note: "", extraType: "", extraNote: "" }
+                ],
+                [
+                    { s1Type: "Easy Run", s1Note: "6K easy", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Tempo", s1Note: "3K tempo ringan", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Rest Day", s1Note: "Recovery total", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Interval", s1Note: "4 x 800m @ race pace", s2Type: "", s2Note: "", extraType: "Mobility", extraNote: "Stretching 20 menit" },
+                    { s1Type: "Easy Run", s1Note: "5K shakeout", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Rest Day", s1Note: "Taper + tidur cukup", s2Type: "", s2Note: "", extraType: "", extraNote: "" },
+                    { s1Type: "Long Run", s1Note: "Race simulation 12K", s2Type: "", s2Note: "", extraType: "", extraNote: "" }
+                ]
+            ];
+
+            wizardData.schedule = weeklyPatterns.flat();
+
+            // Return to Step 1 for review
+            currentStep = 1;
+            currentWeek = 1;
+            updateWizardUI();
+        }
+
+        // --- WIZARD NAVIGATION ---
+        function updateWizardUI() {
+            document.getElementById('wizard-step-indicator').textContent = currentStep;
+            document.getElementById('wizard-step-title').textContent = stepTitles[currentStep - 1];
+            const stepCounter = document.getElementById('wizard-step-counter');
+            if (stepCounter) stepCounter.textContent = `Step ${currentStep} dari ${totalSteps}`;
+
+            document.querySelectorAll('.wizard-step').forEach(step => step.classList.remove('active'));
+            document.getElementById(`step-${currentStep}`).classList.add('active');
+
+            const dotsContainer = document.getElementById('step-dots');
+            dotsContainer.innerHTML = '';
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.createElement('div');
+                dot.className = i === currentStep ? 'w-8 h-2 rounded-full bg-neon transition-all duration-300' : 'w-2 h-2 rounded-full bg-white/10';
+                dotsContainer.appendChild(dot);
+            }
+
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            prevBtn.classList.toggle('opacity-0', currentStep === 1);
+            prevBtn.classList.toggle('pointer-events-none', currentStep === 1);
+            nextBtn.textContent = currentStep === totalSteps ? 'Selesai' : 'Lanjut';
+        }
+
+        function wizardNext() {
+            if (currentStep < totalSteps) {
+                if (currentStep === 1 && !validateStep1()) return;
+                currentStep++;
+                updateWizardUI();
+                if (currentStep === 2) renderStep2();
+                if (currentStep === 3) renderStep3();
+                if (currentStep === 4) renderStep4();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function wizardPrev() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateWizardUI();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function validateStep1() {
+            const fields = ['athlete-name', 'athlete-age', 'pb-time', 'target-time', 'start-date', 'end-date', 'coach-notes'];
+            for (const id of fields) {
+                if (!document.getElementById(id).value) {
+                    alert('Mohon lengkapi semua field wajib (*)');
+                    return false;
+                }
+            }
+            if (new Date(document.getElementById('end-date').value) <= new Date(document.getElementById('start-date').value)) {
+                alert('Tanggal selesai harus setelah tanggal mulai');
+                return false;
+            }
+            return true;
+        }
+
+        // --- STEP RENDERING ---
+        function renderStep2() {
+            const container = document.getElementById('step-2');
+            const weekOffset = (currentWeek - 1) * 7;
+
+            container.innerHTML = `
+                <div class="space-y-4 md:space-y-6">
+                    <!-- Week Selector -->
+                    <div class="flex items-center gap-1.5 p-1 bg-white/5 rounded-xl border border-white/10 overflow-x-auto hide-scrollbar">
+                        ${WEEK_LIST.map(w => `
+                            <button onclick="changeWeek(${w})" class="flex-grow min-w-[70px] py-2 md:py-3 px-2 md:px-4 rounded-lg text-[9px] md:text-[10px] font-bold uppercase tracking-wider transition-all ${currentWeek === w ? 'bg-neon text-black box-shadow-neon' : 'text-slateish hover:bg-white/5'}">
+                                W${w}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="space-y-3 md:space-y-4">
+                        ${days.map((day, dIdx) => {
+                const globalIdx = weekOffset + dIdx;
+                const data = wizardData.schedule[globalIdx];
+                return `
+                            <div class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
+                                <button onclick="toggleDay(${globalIdx})" class="w-full p-4 md:p-6 flex justify-between items-center group text-left">
+                                    <div class="flex items-center gap-3 md:gap-4 overflow-hidden">
+                                        <div class="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-neon shrink-0">${day.substring(0, 3)}</div>
+                                        <div id="summary-${globalIdx}" class="text-xs md:text-sm font-bold truncate ${data.s1Type ? 'text-white' : 'text-slateish'}">
+                                            ${data.s1Type ? (data.s1Type + (data.s2Type ? ' + ' + data.s2Type : '')) : 'Pilih Program...'}
+                                        </div>
+                                    </div>
+                                    <svg id="icon-${globalIdx}" class="w-4 h-4 md:w-5 md:h-5 text-slateish group-hover:text-white transition-transform shrink-0 ${dIdx === 0 ? 'rotate-180' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                                <div id="content-${globalIdx}" class="${dIdx === 0 ? '' : 'hidden'} p-4 md:p-6 border-t border-white/5 space-y-5 md:space-y-6">
+                                    <!-- SESSION 1 -->
+                                    <div class="space-y-3">
+                                        <div class="text-[9px] md:text-[10px] font-bold text-neon uppercase tracking-[0.2em]">Sesi 1</div>
+                                        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+                                            <div class="space-y-3 md:space-y-4">
+                                                <select onchange="updateDayData(${globalIdx}, 's1Type', this.value)" id="s1-prog-${globalIdx}" class="w-full bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2.5 md:py-3 text-xs md:text-sm focus:border-neon outline-none">
+                                                    <option value="">Pilih Program (Sesi 1)...</option>
+                                                    ${Object.keys(programTypeData).map(type => `<option value="${type}" ${data.s1Type === type ? 'selected' : ''}>${type}</option>`).join('')}
+                                                </select>
+                                                <input type="text" onchange="updateDayData(${globalIdx}, 's1Note', this.value)" id="s1-note-${globalIdx}" value="${data.s1Note || ''}" placeholder="Keterangan Sesi 1..." class="w-full bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2.5 md:py-3 text-xs md:text-sm focus:border-neon outline-none">
+                                            </div>
+                                            <div class="flex flex-col justify-center">
+                                                <div class="bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 group/hr hover:bg-neon/5 transition-all text-center md:text-left">
+                                                    <div class="space-y-0.5 md:space-y-1">
+                                                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-slateish font-bold">HR Target S1</div>
+                                                        <div id="hr-display-s1-${globalIdx}" class="text-lg md:text-xl font-display font-bold text-white tracking-tight italic">-- BPM</div>
+                                                    </div>
+                                                    <div id="hr-zone-s1-${globalIdx}" class="text-[9px] md:text-[10px] md:text-right md:max-w-[120px] uppercase tracking-widest text-slateish font-bold">Zone: -</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SESSION 2 -->
+                                    <div class="space-y-3 pt-5 md:pt-6 border-t border-white/5">
+                                        <div class="text-[9px] md:text-[10px] font-bold text-neon uppercase tracking-[0.2em]">Sesi 2</div>
+                                        <div class="grid md:grid-cols-2 gap-4 md:gap-6">
+                                            <div class="space-y-3 md:space-y-4">
+                                                <select onchange="updateDayData(${globalIdx}, 's2Type', this.value)" id="s2-prog-${globalIdx}" class="w-full bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2.5 md:py-3 text-xs md:text-sm focus:border-neon outline-none">
+                                                    <option value="">Pilih Program (Sesi 2)...</option>
+                                                    ${Object.keys(programTypeData).map(type => `<option value="${type}" ${data.s2Type === type ? 'selected' : ''}>${type}</option>`).join('')}
+                                                </select>
+                                                <input type="text" onchange="updateDayData(${globalIdx}, 's2Note', this.value)" id="s2-note-${globalIdx}" value="${data.s2Note || ''}" placeholder="Keterangan Sesi 2..." class="w-full bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2.5 md:py-3 text-xs md:text-sm focus:border-neon outline-none">
+                                            </div>
+                                            <div class="flex flex-col justify-center">
+                                                <div class="bg-white/5 border border-white/10 rounded-xl p-3 md:p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 group/hr hover:bg-neon/5 transition-all text-center md:text-left">
+                                                    <div class="space-y-0.5 md:space-y-1">
+                                                        <div class="text-[9px] md:text-[10px] uppercase tracking-widest text-slateish font-bold">HR Target S2</div>
+                                                        <div id="hr-display-s2-${globalIdx}" class="text-lg md:text-xl font-display font-bold text-white tracking-tight italic">-- BPM</div>
+                                                    </div>
+                                                    <div id="hr-zone-s2-${globalIdx}" class="text-[9px] md:text-[10px] md:text-right md:max-w-[120px] uppercase tracking-widest text-slateish font-bold">Zone: -</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-6 pt-4 border-t border-white/5">
+                                        <select onchange="updateDayData(${globalIdx}, 'extraType', this.value)" id="extra-prog-${globalIdx}" class="bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2 text-[10px] md:text-xs focus:border-neon outline-none">
+                                            <option value="">No Additional</option>
+                                            <option value="Strength" ${data.extraType === 'Strength' ? 'selected' : ''}>Strength</option>
+                                            <option value="Mobility" ${data.extraType === 'Mobility' ? 'selected' : ''}>Mobility</option>
+                                            <option value="Cycling" ${data.extraType === 'Cycling' ? 'selected' : ''}>Cycling</option>
+                                        </select>
+                                        <input type="text" onchange="updateDayData(${globalIdx}, 'extraNote', this.value)" id="extra-note-${globalIdx}" value="${data.extraNote || ''}" placeholder="Extra note..." class="bg-black/50 border border-white/10 rounded-xl px-3 md:px-4 py-2 text-[10px] md:text-xs focus:border-neon outline-none">
+                                    </div>
+                                </div>
+                            </div>`}).join('')}
+                    </div>`;
+
+            // Trigger summary updates for the current week's days
+            for (let i = 0; i < 7; i++) updateDaySummary(weekOffset + i);
+        }
+
+        function changeWeek(w) {
+            currentWeek = w;
+            renderStep2();
+        }
+
+        function updateDayData(idx, field, value) {
+            wizardData.schedule[idx][field] = value;
+            if (field === 's1Type' || field === 's2Type') updateDaySummary(idx);
+        }
+
+        function toggleDay(idx) {
+            const content = document.getElementById(`content-${idx}`);
+            const icon = document.getElementById(`icon-${idx}`);
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function updateDaySummary(idx) {
+            const data = wizardData.schedule[idx];
+            const age = parseInt(document.getElementById('athlete-age').value) || 30;
+            const rhr = parseInt(document.getElementById('resting-hr').value) || 0;
+
+            // Session 1
+            if (data.s1Type) {
+                const hr1 = calculateTargetHR(data.s1Type, age, rhr);
+                document.getElementById(`hr-display-s1-${idx}`).textContent = hr1;
+                document.getElementById(`hr-zone-s1-${idx}`).textContent = `Target: ${programTypeData[data.s1Type].note}`;
+            }
+
+            // Session 2
+            if (data.s2Type) {
+                const hr2 = calculateTargetHR(data.s2Type, age, rhr);
+                document.getElementById(`hr-display-s2-${idx}`).textContent = hr2;
+                document.getElementById(`hr-zone-s2-${idx}`).textContent = `Target: ${programTypeData[data.s2Type].note}`;
+            }
+
+            // Overview Summary (Top level button text)
+            const summary = document.getElementById(`summary-${idx}`);
+            if (data.s1Type) {
+                summary.textContent = `${data.s1Type}${data.s2Type ? ' + ' + data.s2Type : ''}`;
+                summary.classList.add('text-white');
+            } else {
+                summary.textContent = "Pilih Program...";
+            }
+        }
+
+        function renderStep3() {
+            const data = getProgramData();
+            document.getElementById('step-3').innerHTML = `
+                <div class="space-y-6">
+                    <div class="p-4 md:p-6 bg-neon/10 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="text-[9px] md:text-[10px] text-neon font-bold uppercase tracking-widest">Athlete</div>
+                            <div class="text-sm md:text-base text-white font-bold">${data.athlete.name}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-[9px] md:text-[10px] text-neon font-bold uppercase tracking-widest">Target</div>
+                            <div class="text-sm md:text-base text-white font-bold">${data.athlete.targetTime}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-5 md:space-y-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                        ${WEEK_LIST.map(w => {
+                const weekSched = data.schedule.filter(s => s.week === w);
+                return `
+                            <div class="space-y-3">
+                                <div class="text-[10px] font-bold uppercase tracking-widest text-slateish border-l-2 border-neon pl-3">Minggu ${w}</div>
+                                <div class="grid gap-2 md:gap-3">
+                                    ${weekSched.map(s => {
+                    let sessHtml = "";
+                    if (s.s1Type) {
+                        sessHtml += `
+                                            <div class="flex items-start justify-between p-2.5 md:p-3 bg-white/5 rounded-xl border border-white/5">
+                                                <div class="flex items-start gap-2 md:gap-3 overflow-hidden">
+                                                    <div class="text-[9px] font-bold text-neon w-6 mt-1 shrink-0">${s.day.substring(0, 3)}</div>
+                                                    <div class="space-y-0.5 truncate">
+                                                        <div class="text-[8px] md:text-[9px] font-bold text-slateish uppercase tracking-wider">S1: ${s.s1Type}</div>
+                                                        <div class="text-[10px] md:text-xs font-bold text-white truncate">${s.s1Note || '-'}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-[9px] font-mono text-neon font-bold shrink-0 ml-2">${s.s1Hr}</div>
+                                            </div>`;
+                    }
+                    if (s.s2Type) {
+                        sessHtml += `
+                                            <div class="flex items-start justify-between p-2.5 md:p-3 bg-white/5 rounded-xl border border-white/5 border-l-neon">
+                                                <div class="flex items-start gap-2 md:gap-3 overflow-hidden">
+                                                    <div class="text-[9px] font-bold text-neon w-6 mt-1 shrink-0">${s.day.substring(0, 3)}</div>
+                                                    <div class="space-y-0.5 truncate">
+                                                        <div class="text-[8px] md:text-[9px] font-bold text-slateish uppercase tracking-wider">S2: ${s.s2Type}</div>
+                                                        <div class="text-[10px] md:text-xs font-bold text-white truncate">${s.s2Note || '-'}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-[9px] font-mono text-neon font-bold shrink-0 ml-2">${s.s2Hr}</div>
+                                            </div>`;
+                    }
+                    return sessHtml || `<div class="p-2.5 md:p-3 text-[9px] md:text-[10px] text-slateish text-center border border-dashed border-white/10 rounded-xl">${s.day} : Rest</div>`;
+                }).join('')}
+                                </div>
+                            </div>`;
+            }).join('')}
+                    </div>
+                </div>`;
+        }
+
+        function renderStep4() {
+            document.getElementById('step-4').innerHTML = `
+                <div class="text-center space-y-8">
+                    <div class="w-16 h-16 bg-neon/10 rounded-full flex items-center justify-center mx-auto text-neon animate-pulse"><svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                    <div class="space-y-2">
+                        <h4 class="text-2xl font-display font-bold uppercase">Program Siap!</h4>
+                        <p class="text-slateish text-xs">Klik tombol di bawah untuk mendownload PDF.</p>
+                    </div>
+                    <button onclick="downloadPDF()" class="w-full bg-white text-black font-display font-bold py-4 rounded-xl hover:bg-neon transition-all flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        DOWNLOAD PDF
+                    </button>
+                </div>`;
+        }
+
+        function getProgramData() {
+            const age = parseInt(document.getElementById('athlete-age').value) || 30;
+            const rhr = parseInt(document.getElementById('resting-hr').value) || 0;
+
+            return {
+                athlete: {
+                    name: document.getElementById('athlete-name').value,
+                    age: age,
+                    pbEvent: document.getElementById('pb-event').value,
+                    pbTime: document.getElementById('pb-time').value,
+                    targetEvent: document.getElementById('target-event').value,
+                    targetTime: document.getElementById('target-time').value,
+                    start: document.getElementById('start-date').value,
+                    end: document.getElementById('end-date').value,
+                    rhr: rhr,
+                    notes: document.getElementById('coach-notes').value
+                },
+                schedule: wizardData.schedule.map((s, i) => ({
+                    week: Math.floor(i / 7) + 1,
+                    day: days[i % 7],
+                    s1Type: s.s1Type,
+                    s1Note: s.s1Note,
+                    s1Hr: calculateTargetHR(s.s1Type, age, rhr),
+                    s2Type: s.s2Type,
+                    s2Note: s.s2Note,
+                    s2Hr: calculateTargetHR(s.s2Type, age, rhr),
+                    extraType: s.extraType,
+                    extraNote: s.extraNote
+                })),
+                options: { periodMode: "Static" }
+            };
+        }
+
+        async function downloadCalcPDF() {
+            const name = document.getElementById('calc-athlete-name').value || "Athlete";
+            const pbEvent = document.getElementById('calc-pb-event').options[document.getElementById('calc-pb-event').selectedIndex].text;
+            const pbTime = document.getElementById('calc-pb-time').value || "--:--:--";
+            const targetEvent = document.getElementById('calc-target-event').options[document.getElementById('calc-target-event').selectedIndex].text;
+            const targetTime = document.getElementById('calc-target-time').value || "--:--:--";
+
+            const el = document.createElement('div');
+            el.style.width = '780px';
+            el.style.backgroundColor = 'white';
+            el.style.color = 'black';
+            el.style.fontFamily = 'Arial, sans-serif';
+
+            const rows = Array.from({ length: 7 }).map((_, i) => ({
+                row: i + 1,
+                percent: document.getElementById(`calc-percent-${i}`).value,
+                repDist: document.getElementById(`calc-rep-dist-${i}`).value,
+                pace: document.getElementById(`res-pace-${i}`).textContent,
+                repTime: document.getElementById(`res-rep-time-${i}`).textContent,
+                racePace: document.getElementById(`res-race-pace-${i}`).textContent
+            }));
+
+            el.innerHTML = `
+                <div style="width: 100%; margin: 0 auto; background: #fff;">
+                    <div style="padding: 40px; min-height: 1050px; position: relative; box-sizing: border-box;">
+                    <div style="border-bottom: 3px solid #e10600; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 25px;">
+                            <img src="assets/img/Logo_20260211_180632_0000.jpg.jpeg" style="height: 60px; width: auto; border-radius: 4px;" />
+                            <div>
+                                <h1 style="font-size: 26px; margin: 0; color: #000; font-weight: 800; letter-spacing: -0.02em;">PACE TARGET N6</h1>
+                                <p style="margin: 2px 0 0 0; font-size: 14px; color: #e10600; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">HITUNG PROGRAM</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="margin: 0; font-size: 10px; color: #999; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Runner Profile</p>
+                            <p style="margin: 2px 0 0 0; font-size: 16px; font-weight: 800; color: #000;">${name}</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9f9f9; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; border: 1px solid #eee;">
+                        <div>
+                            <p style="margin: 0; font-size: 8px; color: #999; font-weight: bold; text-transform: uppercase;">Target Race</p>
+                            <p style="margin: 3px 0 0 0; font-size: 12px; font-weight: 800; color: #000;">${targetTime} (${targetEvent})</p>
+                        </div>
+                        <div>
+                            <p style="margin: 0; font-size: 8px; color: #999; font-weight: bold; text-transform: uppercase;">Athlete Stats</p>
+                            <p style="margin: 3px 0 0 0; font-size: 14px; font-weight: 700;">PB: ${pbTime} (${pbEvent})</p>
+                        </div>
+                    </div>
+
+                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                        <thead>
+                            <tr style="background: #000; color: #fff;">
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Row</th>
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Intensitas</th>
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Jarak</th>
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Pace Latihan</th>
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Waktu Target</th>
+                                <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Race Pace</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rows.map((r) => `
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 15px 10px; font-size: 12px; font-weight: 800; vertical-align: top;">${r.row}</td>
+                                    <td style="padding: 15px 10px; font-size: 11px; font-weight: 700;">${r.percent}%</td>
+                                    <td style="padding: 15px 10px; font-size: 11px; color: #666;">${r.repDist}m</td>
+                                    <td style="padding: 15px 10px; font-size: 11px; font-weight: 700;">${r.pace}</td>
+                                    <td style="padding: 15px 10px; font-size: 11px; font-weight: 700;">${r.repTime}</td>
+                                    <td style="padding: 15px 10px; font-size: 11px; color: #666;">${r.racePace}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div style="border-top: 1px solid #ddd; padding-top: 18px; display: flex; justify-content: space-between; align-items: center;">
+                        <p style="margin: 0; font-size: 10px; color: #999;">Generated by N6 Running Program Builder</p>
+                        <p style="margin: 0; font-size: 10px; color: #999;">Pace estimate only</p>
+                    </div>
+                </div>
+                </div>
+            `;
+
+            const opt = {
+                margin: [0.4, 0.4, 0.4, 0.4],
+                filename: `N6-Pace%-${name.replace(/\s+/g, '-')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    width: 780,
+                    scrollX: 0,
+                    scrollY: 0
+                },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            const mount = document.createElement('div');
+            mount.style.position = 'fixed';
+            mount.style.left = '0';
+            mount.style.top = '0';
+            mount.style.opacity = '0';
+            mount.style.pointerEvents = 'none';
+            mount.style.zIndex = '-1';
+            mount.style.width = '780px';
+            mount.appendChild(el);
+            document.body.appendChild(mount);
+
+            try {
+                await html2pdf().set(opt).from(el).save();
+            } finally {
+                document.body.removeChild(mount);
+            }
+        }
+
+        async function downloadPDF() {
+            const d = getProgramData();
+            const el = document.createElement('div');
+            el.style.width = '800px';
+            el.style.backgroundColor = 'white';
+            el.style.color = 'black';
+            el.style.fontFamily = 'Arial, sans-serif';
+
+            const filledWeeks = WEEK_LIST.filter((week) => {
+                const weekSched = d.schedule.filter(s => s.week === week);
+                return weekSched.some(s =>
+                    (s.s1Type && s.s1Type.trim()) ||
+                    (s.s1Note && s.s1Note.trim()) ||
+                    (s.s2Type && s.s2Type.trim()) ||
+                    (s.s2Note && s.s2Note.trim()) ||
+                    (s.extraType && s.extraType.trim()) ||
+                    (s.extraNote && s.extraNote.trim())
+                );
+            });
+
+            if (filledWeeks.length === 0) {
+                alert('Belum ada program mingguan yang diisi. Isi minimal 1 sesi dulu sebelum download PDF.');
+                return;
+            }
+
+            let finalHtml = "";
+
+            filledWeeks.forEach((week, wIdx) => {
+                const weekSched = d.schedule.filter(s => s.week === week);
+                finalHtml += `
+                    <div style="width: 720px; margin: 0 auto; background: #fff;">
+                        <div style="padding: 40px; min-height: 1050px; position: relative;">
+                            <div style="border-bottom: 3px solid #e10600; padding-bottom: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: center; gap: 25px;">
+                                    <img src="assets/img/Logo_20260211_180632_0000.jpg.jpeg" style="height: 60px; width: auto; border-radius: 4px;" />
+                                    <div>
+                                        <h1 style="font-size: 26px; margin: 0; color: #000; font-weight: 800; letter-spacing: -0.02em;">WEEKLY PROGRAM N6</h1>
+                                        <p style="margin: 2px 0 0 0; font-size: 14px; color: #e10600; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">MINGGU ${week}</p>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <p style="margin: 0; font-size: 10px; color: #999; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">Runner Profile</p>
+                                    <p style="margin: 2px 0 0 0; font-size: 16px; font-weight: 800; color: #000;">${d.athlete.name}</p>
+                                </div>
+                            </div>
+
+                            ${wIdx === 0 ? `
+                            <div style="background: #f9f9f9; padding: 12px 14px; border-radius: 8px; margin-bottom: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; border: 1px solid #eee;">
+                                <div>
+                                    <p style="margin: 0; font-size: 8px; color: #999; font-weight: bold; text-transform: uppercase;">Target Performance</p>
+                                    <p style="margin: 3px 0 0 0; font-size: 12px; font-weight: 800; color: #000;">SUB ${d.athlete.targetTime} (${d.athlete.targetEvent})</p>
+                                    <p style="margin: 2px 0 0 0; font-size: 10px; color: #666;">${d.athlete.start} - ${d.athlete.end}</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 8px; color: #999; font-weight: bold; text-transform: uppercase;">Athlete Stats</p>
+                                    <p style="margin: 3px 0 0 0; font-size: 11px; font-weight: 700;">PB: ${d.athlete.pbTime} (${d.athlete.pbEvent})</p>
+                                    <p style="margin: 2px 0 0 0; font-size: 10px; color: #666;">Age ${d.athlete.age} | RHR ${d.athlete.rhr} BPM</p>
+                                </div>
+                            </div>` : ''}
+
+                            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+                                <thead>
+                                    <tr style="background: #000; color: #fff;">
+                                        <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Hari</th>
+                                        <th style="padding: 12px 10px; text-align: left; font-size: 11px; text-transform: uppercase;">Detail Program</th>
+                                        <th style="padding: 12px 10px; text-align: center; font-size: 11px; text-transform: uppercase;">Target HR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${weekSched.map(s => `
+                                        <tr style="border-bottom: 1px solid #eee;">
+                                            <td style="padding: 15px 10px; font-size: 12px; font-weight: 800; vertical-align: top; width: 80px;">${s.day.toUpperCase()}</td>
+                                            <td style="padding: 15px 10px; vertical-align: top;">
+                                                <!-- S1 -->
+                                                ${s.s1Type ? `
+                                                <div style="margin-bottom: 10px;">
+                                                    <div style="font-size: 11px; font-weight: 800; color: #000; text-transform: uppercase;">SESI 1: ${s.s1Type}</div>
+                                                    <div style="font-size: 11px; color: #666; font-weight: normal;">${s.s1Note || '-'}</div>
+                                                </div>` : ''}
+                                                <!-- S2 -->
+                                                ${s.s2Type ? `
+                                                <div>
+                                                    <div style="font-size: 11px; font-weight: 800; color: #000; text-transform: uppercase; border-left: 2px solid #000; padding-left: 5px;">SESI 2: ${s.s2Type}</div>
+                                                    <div style="font-size: 11px; color: #666; font-weight: normal; padding-left: 7px;">${s.s2Note || '-'}</div>
+                                                </div>` : ''}
+                                                ${!s.s1Type && !s.s2Type && !s.extraType && !s.extraNote ? '<div style="font-size: 12px; color: #999; font-style: italic;">Rest day</div>' : ''}
+                                            </td>
+                                            <td style="padding: 15px 10px; vertical-align: top; text-align: center; width: 120px;">
+                                                ${s.s1Type ? `<div style="font-size: 12px; font-weight: 900; color: #000; font-family: monospace;">S1: ${s.s1Hr}</div>` : ''}
+                                                ${s.s2Type ? `<div style="font-size: 12px; font-weight: 900; color: #000; font-family: monospace;">S2: ${s.s2Hr}</div>` : ''}
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+
+                            <div style="padding-top: 0px; font-size: 10px; color: #999; line-height: 1.6;">
+                                <p style="margin: 0; font-weight: bold; color: #666;">COACH NOTES:</p>
+                                <p style="margin: 5px 0 0 0;">${d.athlete.notes || 'Tetap konsisten dan dengarkan sinyal tubuh Anda setiap hari.'}</p>
+                            </div>
+                            
+                            <div style="position: absolute; bottom: 40px; right: 40px; font-size: 9px; color: #ccc; font-weight: bold;">
+                                N6 SPORT PERFORMANCE | MINGGU ${week}
+                            </div>
+
+                            ${wIdx < (filledWeeks.length - 1) ? '<div style="page-break-after: always; height: 1px;"></div>' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            el.innerHTML = finalHtml;
+
+            const opt = {
+                margin: 0,
+                filename: `N6-Program-${filledWeeks.length}minggu-${d.athlete.name.replace(/\s+/g, '-')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, width: 800 },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(el).save();
+        }
+
+        // --- STEP 1 TEST 12 MIN MODE ---
+        function toggleStep1TestMode(isTest) {
+            const pbTimeInput = document.getElementById('pb-time');
+            const pbEventSelect = document.getElementById('pb-event');
+            const targetTimeInput = document.getElementById('target-time');
+            const targetEventSelect = document.getElementById('target-event');
+
+            const inputs = [pbTimeInput, targetTimeInput];
+            const selects = [pbEventSelect, targetEventSelect];
+
+            if (isTest) {
+                // Lock Time to 12 minutes for both PB and Target
+                inputs.forEach(input => {
+                    input.value = "00:12:00";
+                    input.readOnly = true;
+                    input.classList.add('opacity-50', 'bg-white/5');
+                });
+
+                selects.forEach(select => {
+                    // Store original options if not already stored
+                    if (!select.dataset.originalOptions) {
+                        select.dataset.originalOptions = select.innerHTML;
+                    }
+
+                    // For 12m mode, use 100m increments
+                    let options = "";
+                    for (let dist = 2000; dist <= 3400; dist += 100) {
+                        options += `<option value="${dist}">12menit / ${dist}m</option>`;
+                    }
+                    select.innerHTML = options;
+                    select.value = "2400"; // Default
+                });
+            } else {
+                // Unlock and reset
+                inputs.forEach(input => {
+                    input.readOnly = false;
+                    input.value = "";
+                    input.classList.remove('opacity-50', 'bg-white/5');
+                });
+
+                selects.forEach(select => {
+                    // Restore original options
+                    if (select.dataset.originalOptions) {
+                        select.innerHTML = select.dataset.originalOptions;
+                    }
+                });
+            }
+        }
+
+        // --- TEST 12 MIN MODE ---
+        function toggleTestMode(isTest) {
+            const pbTimeInput = document.getElementById('calc-pb-time');
+            const pbEventSelect = document.getElementById('calc-pb-event');
+            const targetTimeInput = document.getElementById('calc-target-time');
+            const targetEventSelect = document.getElementById('calc-target-event');
+
+            const inputs = [pbTimeInput, targetTimeInput];
+            const selects = [pbEventSelect, targetEventSelect];
+
+            if (isTest) {
+                // Lock Time to 12 minutes for both PB and Target
+                inputs.forEach(input => {
+                    input.value = "00:12:00";
+                    input.readOnly = true;
+                    input.classList.add('opacity-50', 'bg-white/5');
+                });
+
+                selects.forEach(select => {
+                    // Store original options if not already stored
+                    if (!select.dataset.originalOptions) {
+                        select.dataset.originalOptions = select.innerHTML;
+                    }
+
+                    // For 12m mode, use 100m increments as requested
+                    let options = "";
+                    for (let dist = 2000; dist <= 3400; dist += 100) {
+                        options += `<option value="${dist}">12menit / ${dist}m</option>`;
+                    }
+                    select.innerHTML = options;
+                    select.value = "2400"; // Default
+                });
+            } else {
+                // Unlock and reset
+                inputs.forEach(input => {
+                    input.readOnly = false;
+                    input.value = "";
+                    input.classList.remove('opacity-50', 'bg-white/5');
+                });
+
+                selects.forEach(select => {
+                    // Restore original options
+                    if (select.dataset.originalOptions) {
+                        select.innerHTML = select.dataset.originalOptions;
+                    }
+                });
+            }
+            calculatePace();
+        }
+
+        // Initialize UI
+        window.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('calc-rows-container');
+            if (container) {
+                const distances = [100, 150, 200, 250, 400, 600, 800, 1000, 1200, 1600, 2000];
+                for (let i = 0; i < 7; i++) {
+                    const tr = document.createElement('tr');
+                    tr.className = "border-b border-white/5 hover:bg-white/5 transition-colors";
+                    tr.innerHTML = `
+                        <td data-label="Row" class="py-4 px-2 text-xs text-slateish font-bold">${i + 1}</td>
+                        <td data-label="Pct (%)" class="py-4 px-1 sm:px-2">
+                            <select id="calc-percent-${i}" class="bg-black/50 border border-white/10 rounded-lg px-1.5 sm:px-2 py-2 text-[11px] sm:text-xs focus:border-neon outline-none w-full min-w-0">
+                                ${Array.from({ length: 15 }, (_, idx) => 70 + (idx * 5)).map(p => `<option value="${p}" ${p === 100 ? 'selected' : ''}>${p}%</option>`).join('')}
+                            </select>
+                        </td>
+                        <td data-label="Dist (m)" class="py-4 px-1 sm:px-2">
+                            <select id="calc-rep-dist-${i}" class="bg-black/50 border border-white/10 rounded-lg px-1.5 sm:px-2 py-2 text-[11px] sm:text-xs focus:border-neon outline-none w-full min-w-0">
+                                ${distances.map(d => `<option value="${d}" ${d === 400 ? 'selected' : ''}>${d}m</option>`).join('')}
+                            </select>
+                        </td>
+                        <td data-label="Pace" class="py-4 px-1 sm:px-2 font-mono text-sm text-white whitespace-nowrap" id="res-pace-${i}">--:--</td>
+                        <td data-label="Rep" class="py-4 px-1.5 sm:px-2 font-mono text-sm text-neon whitespace-nowrap" id="res-rep-time-${i}">--:--</td>
+                        <td data-label="Race" class="py-4 px-2 font-mono text-[10px] text-slateish whitespace-nowrap" id="res-race-pace-${i}">--:--</td>
+                    `;
+                    container.appendChild(tr);
+                }
+            }
+            calculatePace();
+        });
+
+        // Tab Logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-neon', 'text-white');
+                btn.classList.add('border-transparent', 'text-slateish');
+            });
+
+            document.getElementById(tabId).classList.add('active');
+            const activeBtn = document.getElementById('tab-btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.remove('border-transparent', 'text-slateish');
+                activeBtn.classList.add('active', 'border-neon', 'text-white');
+            }
+        }
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.onclick = () => document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+    </script>
+</body>
+
+</html>
