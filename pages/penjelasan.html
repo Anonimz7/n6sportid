@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Penjelasan Program - N6 Sport</title>
+  <meta name="description" content="Video penjelasan program N6 Sport dari YouTube." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" type="image/jpeg" href="../assets/img/Logo_20260211_181440_0000.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#000000',
+            card: '#0a0a0a',
+            neon: '#e10600',
+            ink: '#000000',
+            slateish: '#737373',
+            accent: '#ff0b05',
+            muted: '#737373'
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            display: ['Oswald', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body class="bg-dark text-white font-sans antialiased">
+  <div class="min-h-screen flex flex-col">
+    <div id="site-header"></div>
+
+    <main class="flex-1 pt-28 pb-20">
+      <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="text-center mb-12">
+            <h1 class="text-4xl sm:text-5xl font-display font-bold uppercase tracking-tight">Video Penjelasan Program</h1>
+            
+          </div>
+
+          <div class="grid grid-cols-1 gap-8 max-w-4xl mx-auto">
+            <article class="bg-card border border-white/10 p-4 sm:p-6">
+              <h2 class="font-display text-2xl uppercase mb-4">Program Online</h2>
+              <div class="aspect-video border border-white/10 overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  title="Program Online" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </article>
+
+            <article class="bg-card border border-white/10 p-4 sm:p-6">
+              <h2 class="font-display text-2xl uppercase mb-4">Program Offline</h2>
+              <div class="aspect-video border border-white/10 overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/aqz-KE-bpKQ"
+                  title="Program Offline" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </article>
+
+            <article class="bg-card border border-white/10 p-4 sm:p-6">
+              <h2 class="font-display text-2xl uppercase mb-4">Program Course</h2>
+              <div class="aspect-video border border-white/10 overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/jNQXAC9IVRw"
+                  title="Program Course" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </article>
+
+            <article class="bg-card border border-white/10 p-4 sm:p-6">
+              <h2 class="font-display text-2xl uppercase mb-4">Cara Login</h2>
+              <div class="aspect-video border border-white/10 overflow-hidden">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/ysz5S6PUM-U"
+                  title="Cara Login" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="site-footer"></div>
+  </div>
+
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

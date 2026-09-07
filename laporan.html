@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Laporan Coach - N6 sport</title>
+    <meta name="description" content="Sistem pelaporan rutin dan kendala untuk Coach N6 sport." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" type="image/jpeg" href="assets/img/Logo_20260211_181440_0000.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#000000',
+                        card: '#0a0a0a',
+                        neon: '#e10600',
+                        accent: '#ff0b05',
+                        slateish: '#737373',
+                        glass: 'rgba(255, 255, 255, 0.03)',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        display: ['Oswald', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <style>
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-dark text-white font-sans antialiased overflow-x-hidden">
+    <div class="min-h-screen flex flex-col">
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-dark/95 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="h-20 flex items-center justify-between">
+                    <a href="/index.html"
+                        class="flex items-center gap-3 font-display font-bold tracking-tighter text-2xl group">
+                        <img src="/assets/img/Logo_20260211_181440_0000.png" alt="Logo Ayo Lari"
+                            class="h-10 w-10 object-cover rounded-lg border border-white/0" />
+                    </a>
+
+                    <div
+                        class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-slateish">
+                        <a class="hover:text-neon transition-colors" href="/index.html">HOME</a>
+                        <a class="hover:text-neon transition-colors" href="/index.html#features">Fitur</a>
+                        <a class="hover:text-neon transition-colors" href="/index.html#programs">Program</a>
+                        <a class="hover:text-neon transition-colors" href="/pages/tools.html">Tools</a>
+                        <a class="hover:text-neon transition-colors" href="/pages/penjelasan.html">Penjelasan</a>
+                        <a class="hover:text-neon transition-colors" href="/index.html#qna">Q&amp;A</a>
+                    </div>
+
+                    <button id="mobile-menu-btn" class="md:hidden p-2 border border-white/10 text-white">
+                        <span class="sr-only">Toggle menu</span>
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="mobile-menu" class="md:hidden hidden border-t border-white/5 bg-black">
+                <div class="px-4 py-6 space-y-4 text-sm font-bold uppercase tracking-widest">
+                    <a class="block hover:text-neon" href="/index.html">HOME</a>
+                    <a class="block hover:text-neon" href="/index.html#features">Fitur</a>
+                    <a class="block hover:text-neon" href="/index.html#programs">Program</a>
+                    <a class="block hover:text-neon" href="/pages/tools.html">Tools</a>
+                    <a class="block hover:text-neon" href="/pages/penjelasan.html">Penjelasan</a>
+                    <a class="block hover:text-neon" href="/index.html#qna">Q&amp;A</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="flex-grow pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto">
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-white/10 mb-8 overflow-x-auto hide-scrollbar">
+                    <button onclick="switchTab('rutin')" id="btn-rutin"
+                        class="tab-btn active px-8 py-4 font-display font-bold uppercase tracking-widest text-sm border-b-2 border-neon text-white">
+                        Laporan Mingguan & Bulanan
+                    </button>
+                    <button onclick="switchTab('masalah')" id="btn-masalah"
+                        class="tab-btn px-8 py-4 font-display font-bold uppercase tracking-widest text-sm border-b-2 border-transparent text-slateish hover:text-white transition-all">
+                        Laporan Masalah
+                    </button>
+                </div>
+
+                <!-- LAPORAN MINGGUAN & BULANAN -->
+                <div id="tab-rutin" class="tab-content active">
+                    <div class="bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="p-8 border-b border-white/5 bg-gradient-to-r from-neon/10 to-transparent">
+                            <h2 class="text-3xl font-display font-bold uppercase tracking-tight">Laporan Kerja Coach
+                            </h2>
+                            <p class="text-slateish mt-2 uppercase text-[10px] font-bold tracking-widest">Update
+                                perkembangan klien rutin</p>
+                        </div>
+                        <div class="p-8 space-y-8">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Nama
+                                        Coach</label>
+                                    <input type="text" id="r-coach-name" placeholder="Nama Coach"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Domisili</label>
+                                    <input type="text" id="r-domisili" placeholder="Kota & Provinsi"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Klien
+                                        Aktif</label>
+                                    <input type="number" id="r-klien-aktif" placeholder="0"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Klien
+                                        Pasif</label>
+                                    <input type="number" id="r-klien-pasif" placeholder="0"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                            </div>
+
+                            <hr class="border-white/5">
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Nama
+                                        Client</label>
+                                    <input type="text" id="r-client-name" placeholder="Nama Client"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">PB
+                                        Sebelum</label>
+                                    <input type="text" id="r-pb-prev" placeholder="e.g. 55:00"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">PB
+                                        Sekarang</label>
+                                    <input type="text" id="r-pb-now" placeholder="e.g. 52:00"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Status</label>
+                                    <select id="r-status"
+                                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Berhenti">Berhenti</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Mulai</label>
+                                    <input type="date" id="r-date-start"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white [color-scheme:dark] outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Selesai</label>
+                                    <input type="date" id="r-date-end"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white [color-scheme:dark] outline-none">
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6 pb-6 mt-6 pt-6 border-t border-white/5">
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Progress</label>
+                                    <select id="r-progress"
+                                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                        <option value="Naik Level">Naik Level</option>
+                                        <option value="Tetap">Tetap</option>
+                                        <option value="Turun Level">Turun Level</option>
+                                        <option value="Modifikasi">Modifikasi</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Jenis
+                                        Program</label>
+                                    <select id="r-program-type"
+                                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                        <option value="Persiapan Umum">Persiapan Umum</option>
+                                        <option value="Persiapan Khusus">Persiapan Khusus</option>
+                                        <option value="Prakompetisi">Prakompetisi</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Metode
+                                        Pembelajaran</label>
+                                    <div class="flex gap-4">
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="r-method" value="Online" checked
+                                                class="accent-neon"> <span class="text-sm">Online</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 cursor-pointer">
+                                            <input type="radio" name="r-method" value="Offline" class="accent-neon">
+                                            <span class="text-sm">Offline</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6 pt-6 border-t border-white/5">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Program
+                                        Latihan & Performa</label>
+                                    <button onclick="addItem('r-program-list')"
+                                        class="text-[10px] bg-white text-black px-3 py-1 rounded font-bold hover:bg-neon hover:text-white transition-all">+
+                                        TAMBAH</button>
+                                </div>
+                                <div id="r-program-list" class="space-y-3">
+                                    <input type="text" placeholder="Detail program..."
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+                                </div>
+                            </div>
+
+                            <div class="space-y-6 pt-6 border-t border-white/5">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Masalah &
+                                        Evaluasi</label>
+                                    <button onclick="addItem('r-eval-list')"
+                                        class="text-[10px] bg-white text-black px-3 py-1 rounded font-bold hover:bg-neon hover:text-white transition-all">+
+                                        TAMBAH</button>
+                                </div>
+                                <div id="r-eval-list" class="space-y-3">
+                                    <input type="text" placeholder="Catatan evaluasi..."
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+                                </div>
+                            </div>
+
+                            <div class="pt-8 flex justify-end gap-3">
+                                <button onclick="simulateRutin()"
+                                    class="border border-white/20 text-white font-display font-bold px-6 py-4 rounded-xl hover:bg-white hover:text-black transition-all uppercase tracking-widest text-xs">Simulasi
+                                    Data</button>
+                                <button onclick="exportRutinPDF()"
+                                    class="bg-white text-black font-display font-bold px-8 py-4 rounded-xl hover:bg-neon hover:text-white transition-all uppercase tracking-widest text-sm">Download
+                                    PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LAPORAN MASALAH -->
+                <div id="tab-masalah" class="tab-content">
+                    <div class="bg-card border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+                        <div class="p-8 border-b border-white/5 bg-gradient-to-r from-yellow-500/10 to-transparent">
+                            <h2 class="text-3xl font-display font-bold uppercase tracking-tight text-white">Laporan
+                                Kendala</h2>
+                            <p class="text-slateish mt-2 uppercase text-[10px] font-bold tracking-widest">Dokumentasi
+                                masalah mendesak / kendala lapangan</p>
+                        </div>
+                        <div class="p-8 space-y-8">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Nama
+                                        Coach</label>
+                                    <input type="text" id="m-coach-name" placeholder="Nama Coach"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Nama
+                                        Client</label>
+                                    <input type="text" id="m-client-name" placeholder="Nama Client"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Tanggal
+                                        & Waktu</label>
+                                    <input type="datetime-local" id="m-datetime"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white [color-scheme:dark] outline-none">
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Jenis
+                                        Kendala</label>
+                                    <input type="text" id="m-type" placeholder="e.g. Cedera ringan, Alat rusak"
+                                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <label
+                                    class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Kronologi
+                                    Singkat</label>
+                                <textarea id="m-chrono" rows="3"
+                                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none resize-none"
+                                    placeholder="Uraikan kejadian..."></textarea>
+                            </div>
+
+                            <div class="space-y-4">
+                                <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Tindakan
+                                    Langsung Coach</label>
+                                <textarea id="m-action" rows="3"
+                                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none resize-none"
+                                    placeholder="Langkah yang sudah diambil..."></textarea>
+                            </div>
+
+                            <div class="space-y-4">
+                                <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Saran
+                                    yang Diperlukan</label>
+                                <textarea id="m-saran" rows="2"
+                                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none resize-none"
+                                    placeholder="Ekspektasi bantuan..."></textarea>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6 pb-6">
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Butuh
+                                        Bantuan CS/Owner?</label>
+                                    <select id="m-help"
+                                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                        <option value="Tidak">Tidak</option>
+                                        <option value="Ya">Ya</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-4">
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-[0.2em] text-neon">Status
+                                        Akhir</label>
+                                    <select id="m-status"
+                                        class="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-neon outline-none">
+                                        <option value="Selesai">Selesai</option>
+                                        <option value="Ditunda">Ditunda</option>
+                                        <option value="Evaluasi">Evaluasi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="pt-8 flex justify-end gap-3">
+                                <button onclick="simulateMasalah()"
+                                    class="border border-white/20 text-white font-display font-bold px-6 py-4 rounded-xl hover:bg-white hover:text-black transition-all uppercase tracking-widest text-xs">Simulasi
+                                    Data</button>
+                                <button onclick="exportMasalahPDF()"
+                                    class="bg-white text-black font-display font-bold px-8 py-4 rounded-xl hover:bg-neon hover:text-white transition-all uppercase tracking-widest text-sm">Download
+                                    PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PDF Template Container (Hidden) removed as we use dynamic mounting -->
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'border-neon', 'text-white'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('border-transparent', 'text-slateish'));
+
+            document.getElementById('tab-' + tab).classList.add('active');
+            document.getElementById('btn-' + tab).classList.remove('border-transparent', 'text-slateish');
+            document.getElementById('btn-' + tab).classList.add('active', 'border-neon', 'text-white');
+        }
+
+        function simulateRutin() {
+            document.getElementById('r-coach-name').value = "Coach N6 Pro";
+            document.getElementById('r-domisili').value = "Jakarta Selatan, DKI Jakarta";
+            document.getElementById('r-klien-aktif').value = 12;
+            document.getElementById('r-klien-pasif').value = 3;
+            document.getElementById('r-client-name').value = "Budi Santoso";
+            document.getElementById('r-pb-prev').value = "55:20";
+            document.getElementById('r-pb-now').value = "52:10";
+            document.getElementById('r-status').value = "Aktif";
+            document.getElementById('r-date-start').value = "2026-03-01";
+            document.getElementById('r-date-end').value = "2026-03-31";
+            document.getElementById('r-progress').value = "Naik Level";
+            document.getElementById('r-program-type').value = "Persiapan Khusus";
+            document.getElementById('r-program-list').innerHTML = `
+                <input type="text" value="Latihan Interval 10x400m" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+                <input type="text" value="Long Run 15km - Pace 6:00" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+            `;
+            document.getElementById('r-eval-list').innerHTML = `
+                <input type="text" value="Stamina meningkat signifikan" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+                <input type="text" value="Nyeri betis kanan sedikit terasa" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none">
+            `;
+        }
+
+        function simulateMasalah() {
+            document.getElementById('m-coach-name').value = "Coach N6 Elite";
+            document.getElementById('m-client-name').value = "Siti Aminah";
+            document.getElementById('m-datetime').value = "2026-03-13T10:00";
+            document.getElementById('m-type').value = "Lokasi Tidak Tersedia";
+            document.getElementById('m-chrono').value = "Lokasi GBK ditutup mendadak karena acara kenegaraan, client sudah di lokasi.";
+            document.getElementById('m-action').value = "Memindahkan sesi ke area lari terdekat (Hutan Kota) dan menyesuaikan menu latihan ke conditioning.";
+            document.getElementById('m-saran').value = "Mohon info status ketersediaan GBK di update lebih awal di grup coach.";
+            document.getElementById('m-help').value = "Tidak";
+            document.getElementById('m-status').value = "Selesai";
+        }
+
+        function addItem(listId) {
+            const container = document.getElementById(listId);
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = listId.includes('prog') ? 'Data lainnya...' : 'Evaluasi lainnya...';
+            input.className = 'w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-neon outline-none';
+            container.appendChild(input);
+        }
+
+        async function exportRutinPDF() {
+            const getVal = id => document.getElementById(id).value || '-';
+            const method = document.querySelector('input[name="r-method"]:checked')?.value || 'Online';
+            const programs = Array.from(document.getElementById('r-program-list').querySelectorAll('input')).map(i => i.value).filter(v => v);
+            const evals = Array.from(document.getElementById('r-eval-list').querySelectorAll('input')).map(i => i.value).filter(v => v);
+
+            const el = document.createElement('div');
+            el.style.width = '180mm'; // More conservative width
+            el.style.backgroundColor = 'white';
+            el.style.color = 'black';
+            el.style.fontFamily = 'Arial, sans-serif';
+            el.style.margin = '0';
+            el.style.padding = '0';
+
+            el.innerHTML = `
+                <div style="padding: 0 5mm;">
+                    <div style="border-bottom: 4px solid #e10600; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 25px;">
+                            <img src="assets/img/Logo_20260211_180632_0000.jpg.jpeg" style="height: 60px; width: auto; border-radius: 4px;" />
+                            <div>
+                                <h1 style="font-size: 26px; font-weight: 800; margin: 0; letter-spacing: -0.02em;">LAPORAN KERJA COACH</h1>
+                                <p style="margin: 2px 0 0 0; color: #e10600; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">MINGGUAN & BULANAN</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right; color: #999; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em;">N6 SPORT PERFORMANCE</div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
+                        <div>
+                            <p style="font-size: 10px; color: #e10600; font-weight: 800; text-transform: uppercase;">Informasi Coach</p>
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                                <tr><td style="padding: 5px 0; font-weight: bold; width: 100px;">Coach:</td><td>${getVal('r-coach-name')}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Domisili:</td><td>${getVal('r-domisili')}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Klien Aktif:</td><td>${getVal('r-klien-aktif')}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Klien Pasif:</td><td>${getVal('r-klien-pasif')}</td></tr>
+                            </table>
+                        </div>
+                        <div>
+                            <p style="font-size: 10px; color: #e10600; font-weight: 800; text-transform: uppercase;">Informasi Client</p>
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                                <tr><td style="padding: 5px 0; font-weight: bold; width: 100px;">Nama:</td><td>${getVal('r-client-name')}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Periode:</td><td>${getVal('r-date-start')} s.d ${getVal('r-date-end')}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Metode:</td><td>${method}</td></tr>
+                                <tr><td style="padding: 5px 0; font-weight: bold;">Status:</td><td>${getVal('r-status')}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 5px solid #000;">
+                        <p style="font-size: 11px; font-weight: 800; color: #e10600; margin-bottom: 15px;">PROGRESS & PERFORMA</p>
+                        <table style="width: 100%; font-size: 13px;">
+                            <tr><td style="font-weight: bold;">PB Sebelum:</td><td>${getVal('r-pb-prev')}</td><td style="font-weight: bold;">Progress:</td><td>${getVal('r-progress')}</td></tr>
+                            <tr><td style="font-weight: bold;">PB Sekarang:</td><td>${getVal('r-pb-now')}</td><td style="font-weight: bold;">Pogram:</td><td>${getVal('r-program-type')}</td></tr>
+                        </table>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p style="font-size: 11px; font-weight: 800; border-bottom: 1px solid #eee; padding-bottom: 8px;">DETAIL PROGRAM LATIHAN</p>
+                        <ul style="font-size: 13px; padding-left: 20px; line-height: 1.8;">
+                            ${programs.length ? programs.map(p => `<li>${p}</li>`).join('') : '<li>-</li>'}
+                        </ul>
+                    </div>
+
+                    <div style="margin-bottom: 50px;">
+                        <p style="font-size: 11px; font-weight: 800; border-bottom: 1px solid #eee; padding-bottom: 8px;">MASALAH & EVALUASI</p>
+                        <ul style="font-size: 13px; padding-left: 20px; line-height: 1.8;">
+                            ${evals.length ? evals.map(e => `<li>${e}</li>`).join('') : '<li>-</li>'}
+                        </ul>
+                    </div>
+
+                    <div style="margin-top: auto; padding-top: 40px; border-top: 1px dashed #ccc; font-size: 10px; color: #999; display: flex; justify-content: space-between;">
+                        <span>Dicetak pada: ${new Date().toLocaleString('id-ID')}</span>
+                        <span>N6 Sport Management System</span>
+                    </div>
+                </div>
+            `;
+
+            const opt = {
+                margin: [15, 10, 10, 10], // Reduced from 30mm to 15mm to shift content up
+                filename: `Laporan-Coach-${getVal('r-client-name').replace(/\s+/g, '-')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const mount = document.createElement('div');
+            mount.style.position = 'fixed';
+            mount.style.left = '0';
+            mount.style.top = '0';
+            mount.style.opacity = '0';
+            mount.style.pointerEvents = 'none';
+            mount.style.zIndex = '-1';
+            mount.style.width = '800px';
+            mount.appendChild(el);
+            document.body.appendChild(mount);
+
+            try {
+                await html2pdf().set(opt).from(el).save();
+            } finally {
+                document.body.removeChild(mount);
+            }
+        }
+
+        async function exportMasalahPDF() {
+            const getVal = id => document.getElementById(id).value || '-';
+
+            const el = document.createElement('div');
+            el.style.width = '180mm';
+            el.style.backgroundColor = 'white';
+            el.style.color = 'black';
+            el.style.fontFamily = 'Arial, sans-serif';
+            el.style.margin = '0';
+            el.style.padding = '0';
+
+            el.innerHTML = `
+                <div style="padding: 0 5mm;">
+                    <div style="border-bottom: 4px solid #f59e0b; padding-bottom: 15px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 25px;">
+                            <img src="assets/img/Logo_20260211_180632_0000.jpg.jpeg" style="height: 60px; width: auto; border-radius: 4px;" />
+                            <div>
+                                <h1 style="font-size: 26px; font-weight: 800; margin: 0; letter-spacing: -0.02em;">LAPORAN KENDALA</h1>
+                                <p style="font-size: 14px; font-weight: 800; color: #f59e0b; margin: 2px 0 0 0; text-transform: uppercase; letter-spacing: 0.1em;">Insiden & Masalah Lapangan</p>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 10px; font-weight: 800; color: #999; margin: 0; text-transform: uppercase; letter-spacing: 0.1em;">N6 sport URGENT REPORT</p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px;">
+                        <div>
+                            <p style="font-size: 10px; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">Petugas Lapangan</p>
+                            <p style="font-size: 18px; font-weight: 700; margin: 0; color: #111;">${getVal('m-coach-name')}</p>
+                            <p style="font-size: 12px; color: #888; margin: 5px 0 0 0;">Coach</p>
+                        </div>
+                        <div>
+                            <p style="font-size: 10px; font-weight: 800; color: #f59e0b; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px;">Data Kejadian</p>
+                            <p style="font-size: 18px; font-weight: 700; margin: 0; color: #111;">Client: ${getVal('m-client-name')}</p>
+                            <p style="font-size: 12px; color: #888; margin: 5px 0 0 0;">${getVal('m-datetime').replace('T', ' ')}</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #fffbeb; border-radius: 15px; padding: 25px; margin-bottom: 30px; border-left: 5px solid #f59e0b;">
+                        <p style="font-size: 13px; font-weight: 800; color: #92400e; text-transform: uppercase; margin-bottom: 15px;">Jenis Kendala: ${getVal('m-type')}</p>
+                        <p style="font-size: 14px; font-weight: 700; color: #111; margin-bottom: 8px;">Kronologi:</p>
+                        <p style="font-size: 13px; color: #444; line-height: 1.6; margin: 0;">${getVal('m-chrono')}</p>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <p style="font-size: 13px; font-weight: 800; color: #111; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Tindakan Langsung Coach</p>
+                        <p style="font-size: 13px; color: #444; line-height: 1.6; margin: 0;">${getVal('m-action')}</p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;">
+                        <div>
+                            <p style="font-size: 13px; font-weight: 800; color: #111; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Saran / Bantuan CS</p>
+                            <p style="font-size: 13px; color: #444; line-height: 1.6; margin: 0;">${getVal('m-saran')}</p>
+                            <p style="font-size: 11px; font-weight: 700; color: ${getVal('m-help') === 'Ya' ? '#e10600' : '#888'}; margin-top: 10px;">Butuh Bantuan: ${getVal('m-help')}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="font-size: 13px; font-weight: 800; color: #111; text-transform: uppercase; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Status Akhir</p>
+                            <span style="display: inline-block; padding: 8px 20px; border-radius: 50px; background: #111; color: #fff; font-size: 12px; font-weight: 700; text-transform: uppercase;">${getVal('m-status')}</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 80px; padding-top: 20px; border-top: 1px dashed #ddd; text-align: center;">
+                        <p style="font-size: 11px; color: #999; margin: 0;">Dokumen ini dibuat secara otomatis melalui Sistem N6 sport Coach Report pada ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                </div>
+            `;
+
+            const opt = {
+                margin: [15, 10, 10, 10], // Reduced from 30mm to 15mm to shift content up
+                filename: `Kendala-${getVal('m-coach-name').replace(/\s+/g, '-')}-${Date.now()}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            const mount = document.createElement('div');
+            mount.style.position = 'fixed';
+            mount.style.left = '0';
+            mount.style.top = '0';
+            mount.style.opacity = '0';
+            mount.style.pointerEvents = 'none';
+            mount.style.zIndex = '-1';
+            mount.style.width = '800px';
+            mount.appendChild(el);
+            document.body.appendChild(mount);
+
+            try {
+                await html2pdf().set(opt).from(el).save();
+            } finally {
+                document.body.removeChild(mount);
+            }
+        }
+
+        // Mobile Menu Toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+
+</html>

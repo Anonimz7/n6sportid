@@ -1,0 +1,626 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>N6 sport | Tools Lari</title>
+  <meta name="description"
+    content="Kumpulan alat bantu lari: pace calculator, race predictor, hydration, fueling, VO2 max, dan lainnya." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" type="image/jpeg" href="../assets/img/Logo_20260211_181440_0000.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#000000',
+            card: '#0a0a0a',
+            neon: '#e10600',
+            ink: '#000000',
+            slateish: '#737373',
+            accent: '#ff0b05',
+            muted: '#737373'
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            display: ['Oswald', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            glow: 'none',
+            deep: 'none'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body class="bg-dark text-white font-sans antialiased overflow-x-hidden">
+  <div class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <div id="site-header"></div>
+
+    <main class="flex-1 pt-32 pb-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <header class="mb-16 border-b border-white/10 pb-8">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 border-l-4 border-neon bg-white/5 text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+            Tools
+          </div>
+          <h1 class="text-3xl sm:text-6xl font-display font-bold uppercase tracking-tight leading-none mb-6">
+            N6 <span class="text-neon">Kalkulator</span>
+          </h1>
+          <p class="text-[1rem] text-slateish font-light leading-relaxed max-w-2xl">
+            Kumpulan kalkulator esensial untuk pelari.
+          </p>
+        </header>
+
+        <div class="grid lg:grid-cols-[250px_1fr] gap-6 lg:gap-10">
+          <!-- Sidebar Navigation -->
+          <div class="flex flex-col gap-2">
+            <div class="text-xs font-bold uppercase tracking-widest text-neon mb-4">Select Tool</div>
+            <div class="flex flex-col gap-1 overflow-y-auto max-h-[400px]">
+              <button
+                class="tools-tab-btn active text-left px-4 py-3 border-l-2 border-neon bg-white/5 text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/10"
+                data-tab="pace">Pace Calculator</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="predictor">Race Predictor</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="magicMile">Magic Mile</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="marathon">Marathon Pace</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="splits">Split Times</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="improvement">Time Improvement</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="steps">Step Converter</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="stride">Stride Length</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="training">Training Paces</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="hydration">Hydration Plan</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="fueling">Fueling Strategy</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="vo2max">VO2 Max Est.</button>
+              <button
+                class="tools-tab-btn text-left px-4 py-3 border-l-2 border-transparent text-slateish hover:text-white font-bold uppercase text-xs tracking-wider transition hover:bg-white/5 hover:border-white/20"
+                data-tab="heartrate">Heart Rate Zones</button>
+            </div>
+
+            <div class="mt-8 pt-8 border-t border-white/10">
+              <label class="text-xs uppercase tracking-widest text-slateish block mb-3">Global Unit System</label>
+              <select id="globalUnit"
+                class="w-full bg-card border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon focus:ring-0 outline-none">
+                <option value="metric" selected>Metric (km)</option>
+                <option value="imperial">Imperial (miles)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Content Area -->
+          <div class="border border-white/10 bg-card p-4 sm:p-6 lg:p-8 min-h-[500px]">
+
+            <!-- PACE CALCULATOR -->
+            <div id="pace" class="tools-panel active" data-hash="pace">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Pace Calculator</h2>
+              <p class="text-slateish text-sm mb-8">Hitung kecepatan rata-rata (pace) dari jarak dan waktu tempuh.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="paceDistanceLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Distance
+                    (m)</label>
+                  <input id="paceDistance" type="number" step="1" min="0.1" placeholder="e.g. 5000"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono mb-2" />
+                  <select id="paceUnit"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none">
+                    <option value="meter">Meter (m)</option>
+                    <option value="km">Kilometer (km)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="paceHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="paceMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="paceSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+
+              <button id="btnPace"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Calculate
+                Pace</button>
+
+              <div id="paceError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="paceResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- PREDICTOR -->
+            <div id="predictor" class="tools-panel hidden" data-hash="predictor">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Race Predictor</h2>
+              <p class="text-slateish text-sm mb-8">Estimasi waktu race berdasarkan performa jarak lain (Riegel
+                Formula).</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="recentRaceDistanceLabel"
+                    class="text-xs font-bold uppercase text-slateish block mb-2">Recent Race</label>
+                  <select id="recentRaceDistanceSelect"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none mb-2">
+                    <option value="5">5K</option>
+                    <option value="10">10K</option>
+                    <option value="21.1">Half Marathon</option>
+                    <option value="42.2">Marathon</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                  <input id="recentRaceDistance" type="number" step="0.1" min="0.1" placeholder="Distance (km)"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono hidden" />
+                </div>
+                <div>
+                  <label id="recentRaceTimeLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Recent
+                    Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="recentRaceHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="recentRaceMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="recentRaceSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label id="targetRaceDistanceLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Target
+                  Race</label>
+                <select id="targetRaceDistanceSelect"
+                  class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none mb-2">
+                  <option value="5">5K</option>
+                  <option value="10">10K</option>
+                  <option value="21.1">Half Marathon</option>
+                  <option value="42.2" selected>Marathon</option>
+                  <option value="custom">Custom</option>
+                </select>
+                <input id="targetRaceDistance" type="number" step="0.1" min="0.1" placeholder="Distance (km)"
+                  class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono hidden" />
+              </div>
+
+              <button id="btnPredictor"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Predict
+                Time</button>
+              <div id="racePredictorError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="racePredictorResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- MAGIC MILE -->
+            <div id="magicMile" class="tools-panel hidden" data-hash="magicmile">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Magic Mile</h2>
+              <p class="text-slateish text-sm mb-8">Metode Jeff Galloway: Lari 1 mil (1.6km) all-out untuk prediksi pace
+                latihan.</p>
+
+              <div class="mb-6">
+                <label class="text-xs font-bold uppercase text-slateish block mb-2">Waktu Magic Mile (H : M : S)</label>
+                <div class="grid grid-cols-3 gap-2 max-w-md">
+                  <input id="magicHours" type="number" min="0" placeholder="00"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  <input id="magicMinutes" type="number" min="0" placeholder="00"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  <input id="magicSeconds" type="number" min="0" placeholder="00"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+
+              <button id="btnMagicMile"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Calculate</button>
+              <div id="magicMileError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="magicMileResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- MARATHON PACE -->
+            <div id="marathon" class="tools-panel hidden" data-hash="marathon">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Marathon Pace</h2>
+              <p class="text-slateish text-sm mb-8">Tentukan pace yang harus dijaga untuk mencapai target finish
+                marathon.</p>
+
+              <div class="mb-6">
+                <label class="text-xs font-bold uppercase text-slateish block mb-2">Target Finish Time (H : M :
+                  S)</label>
+                <div class="grid grid-cols-3 gap-2 max-w-md">
+                  <input id="marathonHours" type="number" min="0" placeholder="04"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  <input id="marathonMinutes" type="number" min="0" placeholder="00"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  <input id="marathonSeconds" type="number" min="0" placeholder="00"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+
+              <button id="btnMarathon"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Show
+                Pace</button>
+              <div id="marathonError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="marathonResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- SPLITS -->
+            <div id="splits" class="tools-panel hidden" data-hash="splits">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Split Calculator</h2>
+              <p class="text-slateish text-sm mb-8">Strategi split: Even, Negative, atau Positive.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="splitDistanceLabel"
+                    class="text-xs font-bold uppercase text-slateish block mb-2">Distance</label>
+                  <select id="splitDistanceSelect"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none mb-2">
+                    <option value="5">5K</option>
+                    <option value="10">10K</option>
+                    <option value="21.1">Half Marathon</option>
+                    <option value="42.2">Marathon</option>
+                    <option value="custom">Custom</option>
+                  </select>
+                  <input id="splitDistance" type="number" step="0.1" min="0.1" placeholder="Distance (km)"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono hidden" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Target Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="splitHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="splitMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="splitSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Strategy</label>
+                  <select id="splitStrategy"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none">
+                    <option value="even">Even Split (Konsisten)</option>
+                    <option value="negative">Negative Split (Makin Cepat)</option>
+                    <option value="positive">Positive Split (Makin Lambat)</option>
+                  </select>
+                </div>
+                <div id="splitPercentageGroup" class="hidden">
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Change Rate (%)</label>
+                  <div class="flex items-center gap-4">
+                    <input id="splitPercentage" type="range" min="0" max="5" step="0.1" value="1"
+                      class="flex-1 accent-neon h-2 bg-white/10 rounded-lg appearance-none cursor-pointer" />
+                    <span id="splitPercentageValue" class="text-white font-mono text-sm">1.0%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label id="splitIntervalLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Split
+                  Interval (km)</label>
+                <input id="splitInterval" type="number" step="1" min="1" value="1"
+                  class="w-full max-w-[100px] bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+              </div>
+
+              <button id="btnSplits"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Generate
+                Table</button>
+              <div id="splitError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="splitResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- IMPROVEMENT -->
+            <div id="improvement" class="tools-panel hidden" data-hash="improvement">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Time Improvement</h2>
+              <p class="text-slateish text-sm mb-8">Seberapa banyak improvement yang dibutuhkan?</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Current Best Time (H : M :
+                    S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="currentBestHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="currentBestMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="currentBestSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Target Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="targetTimeHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="targetTimeMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="targetTimeSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="text-xs font-bold uppercase text-slateish block mb-2">Distance (km)</label>
+                <input id="improvementDistance" type="number" step="0.1" min="0.1" placeholder="e.g. 10"
+                  class="w-full max-w-[150px] bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+              </div>
+
+              <button id="btnImprovement"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Check
+                Improvement</button>
+              <div id="improvementError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="improvementResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- STEPS -->
+            <div id="steps" class="tools-panel hidden" data-hash="steps">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Steps Converter</h2>
+              <p class="text-slateish text-sm mb-8">Konversi langkah ke jarak (estimasi).</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Step Count</label>
+                  <input id="stepsCount" type="number" min="1" placeholder="e.g. 10000"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Stride Length (cm)</label>
+                  <input id="strideLength" type="number" step="1" min="1" value="75"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+              <button id="btnSteps"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Convert</button>
+              <div id="stepsError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="stepsResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- STRIDE -->
+            <div id="stride" class="tools-panel hidden" data-hash="stride">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Stride Length Calc</h2>
+              <p class="text-slateish text-sm mb-8">Hitung panjang langkah rata-rata.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="strideDistanceLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Distance
+                    (km)</label>
+                  <input id="strideDistance" type="number" step="0.01" min="0.01" placeholder="e.g. 1"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Total Steps</label>
+                  <input id="strideStepsCount" type="number" min="1" placeholder="e.g. 1250"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+              <button id="btnStride"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Calculate
+                Stride</button>
+              <div id="strideLengthError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="strideLengthResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- TRAINING PACES -->
+            <div id="training" class="tools-panel hidden" data-hash="training">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Training Zones</h2>
+              <p class="text-slateish text-sm mb-8">Tentukan pace latihan (Easy, Tempo, Interval) berdasarkan performa
+                saat ini.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="trainingDistanceLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Recent
+                    Best Distance (km)</label>
+                  <input id="trainingDistance" type="number" step="0.1" min="0.1" value="5" placeholder="e.g. 5"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Best Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="bestTimeHours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="bestTimeMinutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="bestTimeSeconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+              <button id="btnTraining"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Generate
+                Zones</button>
+              <div id="trainingPaceError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="trainingPaceResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- HYDRATION -->
+            <div id="hydration" class="tools-panel hidden" data-hash="hydration">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Hydration Plan</h2>
+              <p class="text-slateish text-sm mb-8">Estimasi kehilangan cairan dan strategi minum.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Duration (min)</label>
+                  <input id="hydDuration" type="number" min="1" value="60"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Temp (C) & Humidity (%)</label>
+                  <div class="flex gap-2">
+                    <input id="hydTemp" type="number" value="28" placeholder="Temp"
+                      class="w-1/2 bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                    <input id="hydHumidity" type="number" value="70" placeholder="Hum %"
+                      class="w-1/2 bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Saltiness</label>
+                  <select id="hydSaltiness"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none">
+                    <option value="low">Low</option>
+                    <option value="normal" selected>Normal</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Sweat Rate (Optional
+                    ml/hr)</label>
+                  <input id="hydSweatRate" type="number" placeholder="Unknown"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+
+              <button id="btnHydration"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Calculate
+                Needs</button>
+              <div id="hydrationError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="hydrationResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- FUELING -->
+            <div id="fueling" class="tools-panel hidden" data-hash="fueling">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Fueling Strategy</h2>
+              <p class="text-slateish text-sm mb-8">Berapa banyak karbohidrat yang dibutuhkan saat race?</p>
+
+              <div class="mb-6">
+                <label class="text-xs font-bold uppercase text-slateish block mb-2">Target Duration (H : M)</label>
+                <div class="grid grid-cols-2 gap-2 max-w-sm">
+                  <input id="fuelHours" type="number" min="0" value="2" placeholder="HH"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  <input id="fuelMinutes" type="number" min="0" value="0" placeholder="MM"
+                    class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Intensity</label>
+                  <select id="fuelIntensity"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none">
+                    <option value="easy">Easy / Long Run</option>
+                    <option value="tempo">Tempo</option>
+                    <option value="race" selected>Race Effort</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Primary Source</label>
+                  <select id="fuelType"
+                    class="w-full bg-black border border-white/10 text-white text-xs uppercase font-bold px-4 py-3 focus:border-neon outline-none">
+                    <option value="gel">Energy Gel</option>
+                    <option value="drink">Sports Drink</option>
+                    <option value="mix">Mix Both</option>
+                  </select>
+                </div>
+              </div>
+
+              <button id="btnFueling"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Create
+                Plan</button>
+              <div id="fuelingError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="fuelingResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- VO2 MAX -->
+            <div id="vo2max" class="tools-panel hidden" data-hash="vo2max">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">VO2 Max Estimate</h2>
+              <p class="text-slateish text-sm mb-8">Perkiraan kapasitas aerobik maksimal.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label id="vo2DistanceLabel" class="text-xs font-bold uppercase text-slateish block mb-2">Race
+                    Distance (km)</label>
+                  <input id="vo2Distance" type="number" step="0.1" min="0.1" placeholder="e.g. 10"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Time (H : M : S)</label>
+                  <div class="grid grid-cols-3 gap-2">
+                    <input id="vo2Hours" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="vo2Minutes" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                    <input id="vo2Seconds" type="number" min="0" placeholder="00"
+                      class="bg-black border border-white/10 rounded-none px-2 py-3 text-center text-white focus:border-neon outline-none font-mono" />
+                  </div>
+                </div>
+              </div>
+
+              <button id="btnVo2"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Calculate</button>
+              <div id="vo2Error" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="vo2Results" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+            <!-- HEART RATE -->
+            <div id="heartrate" class="tools-panel hidden" data-hash="heartrate">
+              <h2 class="text-2xl font-display font-bold uppercase mb-2">Heart Rate Zones</h2>
+              <p class="text-slateish text-sm mb-8">Karvonen Formula untuk zona latihan yang lebih akurat.</p>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Age</label>
+                  <input id="hrAge" type="number" min="10" placeholder="e.g. 30"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+                <div>
+                  <label class="text-xs font-bold uppercase text-slateish block mb-2">Resting HR</label>
+                  <input id="hrRest" type="number" min="30" placeholder="e.g. 60"
+                    class="w-full bg-black border border-white/10 rounded-none px-4 py-3 text-white focus:border-neon outline-none font-mono" />
+                </div>
+              </div>
+
+              <button id="btnHeart"
+                class="w-full sm:w-auto px-8 py-4 bg-neon text-white font-bold uppercase tracking-widest hover:bg-accent transition text-xs">Show
+                Zones</button>
+              <div id="heartRateError" class="tools-error mt-4 text-red-500 text-sm font-bold hidden"></div>
+              <div id="heartRateResults" class="tools-results mt-8 border-t border-white/10 pt-6 hidden"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="site-footer"></div>
+  </div>
+
+  <script src="../assets/js/tools.js"></script>
+  <a href="https://wa.me/6285136507285" target="_blank" class="floating-wa" aria-label="Chat via WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-whatsapp"
+      viewBox="0 0 16 16">
+      <path
+        d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+    </svg>
+  </a>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+
+</html>

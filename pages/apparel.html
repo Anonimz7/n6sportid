@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apparel | N6 sport</title>
+  <meta name="description" content="Rekomendasi apparel lari untuk latihan yang nyaman, aman, dan konsisten." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" type="image/jpeg" href="../assets/img/Logo_20260211_180632_0000.jpg.jpeg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dark: '#000000',
+            card: '#0a0a0a',
+            neon: '#e10600',
+            ink: '#000000',
+            slateish: '#737373',
+            accent: '#ff0b05',
+            muted: '#737373'
+          },
+          fontFamily: {
+            sans: ['Manrope', 'sans-serif'],
+            display: ['Oswald', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            glow: 'none',
+            deep: 'none'
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+</head>
+
+<body class="bg-dark text-white font-sans antialiased">
+  <div class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <div id="site-header"></div>
+
+    <main class="flex-1 pt-32 pb-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <header class="mb-16 border-b border-white/10 pb-8">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 border-l-4 border-neon bg-white/5 text-white text-xs font-bold uppercase tracking-[0.2em] mb-6">
+            Gear
+          </div>
+          <h1 class="text-4xl sm:text-6xl font-display font-bold uppercase tracking-tight leading-none mb-6">
+            APPAREL <span class="text-neon"></span>
+          </h1>
+          <!-- <p class="text-[1rem] text-slateish font-light leading-relaxed max-w-2xl">
+            Rekomendasi apparel untuk pemula sampai pelari serius: fokus pada kenyamanan, keamanan, dan performa tanpa
+            kompromi.
+          </p>
+        </header> -->
+
+          <div class="grid lg:grid-cols-[1fr_0.5fr] gap-12 items-start mb-20">
+            <!-- Main Content -->
+            <div id="kategori">
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Item 1 -->
+                <div class="group border border-white/10 p-0 bg-card hover:border-neon transition cursor-pointer">
+                  <div class="aspect-video bg-white/5 border-b border-white/10 overflow-hidden relative">
+                    <img class="object-cover w-full h-full transition duration-500"
+                      src="https://placehold.co/600x400/111/444?text=SHOES" alt="Shoes">
+                    <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+                  </div>
+                  <div class="p-6">
+                    <h3 class="text-xl font-display font-bold uppercase mb-2">Jersey</h3>
+                    <p class="text-sm text-slateish mb-4">-</p>
+                    <button id="open-order-modal"
+                      class="text-xs font-bold uppercase tracking-widest text-neon group-hover:text-white transition">Pesan Sekarang
+                      -></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar
+          <div class="space-y-8" id="paket">
+            <div class="border border-white/10 p-8 bg-card">
+              <h3 class="font-display font-bold uppercase text-2xl mb-6">Starter Pack</h3>
+              <ul class="space-y-4 mb-8">
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-neon"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">Entry Shoes</strong>
+                    <p class="text-slateish text-xs">Cushioning standard, durable.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-neon"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">Jersey DryFit</strong>
+                    <p class="text-slateish text-xs">Basic moisture wicking.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-neon"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">Shorts</strong>
+                    <p class="text-slateish text-xs">Lightweight, with pocket.</p>
+                  </div>
+                </li>
+              </ul>
+              <button
+                class="w-full py-3 border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition text-white">See
+                Recommendations</button>
+            </div>
+
+            <div class="border border-white/10 p-8 bg-card">
+              <h3 class="font-display font-bold uppercase text-2xl mb-6">Pro Pack</h3>
+              <ul class="space-y-4 mb-8">
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-white"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">Carbon Shoes</strong>
+                    <p class="text-slateish text-xs">High energy return.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-white"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">Pro Singlet</strong>
+                    <p class="text-slateish text-xs">Ultra light, maximum airflow.</p>
+                  </div>
+                </li>
+                <li class="flex items-start gap-4">
+                  <div class="w-1 h-full bg-white"></div>
+                  <div>
+                    <strong class="block text-white uppercase text-xs tracking-widest mb-1">GPS Watch</strong>
+                    <p class="text-slateish text-xs">Advanced metrics & maps.</p>
+                  </div>
+                </li>
+              </ul>
+              <button
+                class="w-full py-3 border border-white/10 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition text-white">See
+                Recommendations</button>
+            </div>
+          </div>/ Packages -->
+          </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <div id="site-footer"></div>
+    <div id="order-modal" class="fixed inset-0 z-[60] hidden">
+      <div id="order-modal-backdrop" class="absolute inset-0 bg-black/80"></div>
+      <div class="relative h-full overflow-y-auto">
+        <div class="min-h-full flex items-start sm:items-center justify-center px-3 py-4 sm:p-4">
+          <div class="w-full max-w-xl max-h-[92dvh] overflow-y-auto border border-white/15 bg-card p-5 sm:p-8">
+          <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <h2 class="text-2xl font-display font-bold uppercase">Form Pembelian</h2>
+              <p class="text-xs text-slateish mt-1">Lengkapi data lalu kirim pesanan.</p>
+            </div>
+            <button id="close-order-modal" class="text-white/80 hover:text-white text-xl leading-none"
+              aria-label="Tutup form">&times;</button>
+          </div>
+
+          <form id="order-form" class="space-y-4">
+            <div>
+              <label for="order-name" class="block text-xs font-bold uppercase tracking-widest mb-2">Nama</label>
+              <input id="order-name" name="nama" type="text" required
+                class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon" />
+            </div>
+            <div>
+              <label for="order-wa" class="block text-xs font-bold uppercase tracking-widest mb-2">No WA</label>
+              <input id="order-wa" name="noWa" type="tel" required
+                class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon" />
+            </div>
+            <div>
+              <label for="order-address" class="block text-xs font-bold uppercase tracking-widest mb-2">Alamat</label>
+              <textarea id="order-address" name="alamat" rows="2" required
+                class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon"></textarea>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="order-model" class="block text-xs font-bold uppercase tracking-widest mb-2">Model</label>
+                <select id="order-model" name="model" required
+                  class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon">
+                  <option value="">Pilih model</option>
+                  <option value="A1">A1</option>
+                  <option value="A2">A2</option>
+                  <option value="A3">A3</option>
+                  <option value="A4">A4</option>
+                  <option value="A5">A5</option>
+                </select>
+              </div>
+              <div>
+                <label for="order-quantity" class="block text-xs font-bold uppercase tracking-widest mb-2">Jumlah (Total Order)</label>
+                <input id="order-quantity" name="jumlah" type="number" min="1" value="1" required
+                  class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon" />
+              </div>
+            </div>
+            <div>
+              <label for="order-size" class="block text-xs font-bold uppercase tracking-widest mb-2">Ukuran</label>
+              <select id="order-size" name="ukuran" required
+                class="w-full border border-white/20 bg-black/40 px-3 py-2 text-sm outline-none focus:border-neon">
+                <option value="">Pilih ukuran</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
+            </div>
+
+            <div class="border border-white/10 bg-black/30 p-4 text-xs">
+              <p><span class="text-slateish">Pengirim:</span> N6 Running</p>
+              <p><span class="text-slateish">No WA:</span> 0851-4726-7786</p>
+              <p><span class="text-slateish">Kota:</span> Kediri, Jawa Timur</p>
+            </div>
+
+            <button type="submit"
+              class="w-full py-3 border border-neon bg-neon text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black hover:border-white transition">
+              Kirim Pesanan
+            </button>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="https://wa.me/6285136507285" target="_blank" class="floating-wa" aria-label="Chat via WhatsApp">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-whatsapp"
+      viewBox="0 0 16 16">
+      <path
+        d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z" />
+    </svg>
+  </a>
+  <div id="previewModal"
+    class="fixed inset-0 z-[80] hidden items-center justify-center bg-black/70 backdrop-blur-sm px-4 py-8">
+    <div
+      class="bg-card border border-white/10 rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <div>
+          <div class="text-xs uppercase tracking-[0.3em] text-slateish">Preview</div>
+          <div class="text-lg font-display font-bold">Cek Data Pesanan</div>
+        </div>
+        <button type="button" id="closePreview"
+          class="text-slateish hover:text-white transition-colors text-sm uppercase tracking-widest">Tutup</button>
+      </div>
+      <div id="previewContent" class="p-6 overflow-y-auto flex-1 min-h-0 space-y-6 text-sm">
+      </div>
+      <div class="px-6 py-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+        <button type="button" id="editPreview"
+          class="flex-1 sm:flex-none px-6 py-3 border border-white/20 text-white font-bold text-sm uppercase tracking-widest hover:border-white transition-colors">
+          Kembali Edit
+        </button>
+        <button type="button" id="confirmPreview"
+          class="flex-1 bg-neon text-black font-bold text-sm uppercase tracking-widest py-3 px-6 hover:bg-white transition-colors shadow-[0_0_16px_rgba(225,6,0,0.35)] hover:shadow-none">
+          Generate JPG
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="successModal" class="fixed inset-0 z-[90] hidden items-center justify-center bg-black/80 backdrop-blur-md px-4">
+    <div
+      class="bg-card border border-white/10 rounded-2xl w-full max-w-md p-8 shadow-2xl text-center space-y-6 relative overflow-hidden">
+      <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-32 bg-neon/20 blur-3xl rounded-full -translate-y-1/2">
+      </div>
+
+      <div
+        class="w-20 h-20 bg-neon/10 border border-neon/20 rounded-full flex items-center justify-center mx-auto relative z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-neon" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+
+      <div class="space-y-2 relative z-10">
+        <h3 class="text-2xl font-display font-bold uppercase tracking-tight text-white">Pesanan Diproses</h3>
+        <p class="text-slateish text-sm leading-relaxed">
+          File JPG pesanan sudah diunduh. kirim file ke WhatsApp dan bukti pembayaran.
+        </p>
+      </div>
+
+      <div class="pt-4 relative z-10 space-y-3">
+        <button type="button" id="sendToWaBtn"
+          class="w-full px-6 py-3 bg-neon text-black font-bold text-sm uppercase tracking-widest hover:bg-white transition-colors">
+          Kirim ke WA
+        </button>
+        <button type="button" id="closeSuccessModal"
+          class="w-full px-6 py-3 border border-white/20 text-white font-bold text-sm uppercase tracking-widest hover:border-white transition-colors">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="order-jpg-card"
+    class="fixed -left-[9999px] top-0 w-[900px] bg-white text-black border border-black/20 p-10 font-sans">
+    <div class="flex items-start justify-between border-b border-black/20 pb-5 mb-6">
+      <div>
+        <p class="text-[25px] uppercase tracking-[0.2em] text-gray-600">N6 Running</p>
+        <h3 class="text-4xl font-display font-bold uppercase tracking-tight">Order Apparel</h3>
+      </div>
+      <div class="text-right text-[25px] text-gray-600">
+        <p>No WA: 0851-4726-7786</p>
+        <p>Kediri, Jawa Timur</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-x-8 gap-y-6 text-[30px]">
+      <div><span class="text-gray-600 block text-[25px] mb-1">Nama</span><span class="font-semibold"
+          id="jpg-name">-</span></div>
+      <div><span class="text-gray-600 block text-[25px] mb-1">No WA</span><span class="font-semibold"
+          id="jpg-wa">-</span></div>
+      <div class="col-span-2"><span class="text-gray-600 block text-[25px] mb-1">Alamat</span><span class="font-semibold"
+          id="jpg-address">-</span></div>
+      <div><span class="text-gray-600 block text-[25px] mb-1">Model</span><span class="font-semibold"
+          id="jpg-model">-</span></div>
+      <div><span class="text-gray-600 block text-[25px] mb-1">Jumlah (Total Order)</span><span class="font-semibold"
+          id="jpg-quantity">-</span></div>
+      <div><span class="text-gray-600 block text-[25px] mb-1">Ukuran</span><span class="font-semibold"
+          id="jpg-size">-</span></div>
+      <div><span class="text-gray-600 block text-[25px] mb-1">Pengirim</span><span class="font-semibold">N6
+          Running</span></div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="../assets/js/layout.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    const orderModal = document.getElementById('order-modal');
+    const openOrderModalBtn = document.getElementById('open-order-modal');
+    const closeOrderModalBtn = document.getElementById('close-order-modal');
+    const orderModalBackdrop = document.getElementById('order-modal-backdrop');
+    const orderForm = document.getElementById('order-form');
+    const previewModal = document.getElementById('previewModal');
+    const previewContent = document.getElementById('previewContent');
+    const closePreviewBtn = document.getElementById('closePreview');
+    const editPreviewBtn = document.getElementById('editPreview');
+    const confirmPreviewBtn = document.getElementById('confirmPreview');
+    const successModal = document.getElementById('successModal');
+    const sendToWaBtn = document.getElementById('sendToWaBtn');
+    const closeSuccessModalBtn = document.getElementById('closeSuccessModal');
+    const orderJpgCard = document.getElementById('order-jpg-card');
+    let latestOrderData = null;
+
+    const toDisplay = (value) => value ? String(value).trim() : '-';
+    const escapeHtml = (value) => String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+    function openOrderModal() {
+      orderModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeOrderModal() {
+      orderModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function openPreviewModal() {
+      previewModal.classList.remove('hidden');
+      previewModal.classList.add('flex');
+    }
+
+    function closePreviewModal() {
+      previewModal.classList.add('hidden');
+      previewModal.classList.remove('flex');
+    }
+
+    function openSuccessModal() {
+      successModal.classList.remove('hidden');
+      successModal.classList.add('flex');
+    }
+
+    function closeSuccessModal() {
+      successModal.classList.add('hidden');
+      successModal.classList.remove('flex');
+    }
+
+    function collectOrderData() {
+      const formData = new FormData(orderForm);
+      return {
+        nama: toDisplay(formData.get('nama')),
+        noWa: toDisplay(formData.get('noWa')),
+        alamat: toDisplay(formData.get('alamat')),
+        model: toDisplay(formData.get('model')),
+        jumlah: toDisplay(formData.get('jumlah')),
+        ukuran: toDisplay(formData.get('ukuran'))
+      };
+    }
+
+    function setJpgCardData(data) {
+      document.getElementById('jpg-name').textContent = data.nama;
+      document.getElementById('jpg-wa').textContent = data.noWa;
+      document.getElementById('jpg-address').textContent = data.alamat;
+      document.getElementById('jpg-model').textContent = data.model;
+      document.getElementById('jpg-quantity').textContent = data.jumlah;
+      document.getElementById('jpg-size').textContent = data.ukuran;
+    }
+
+    function renderPreview(data) {
+      previewContent.innerHTML = `
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Nama</div><div class="font-bold">${escapeHtml(data.nama)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">No WA</div><div class="font-bold">${escapeHtml(data.noWa)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30 sm:col-span-2"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Alamat</div><div class="font-bold">${escapeHtml(data.alamat)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Model</div><div class="font-bold">${escapeHtml(data.model)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Jumlah (Total Order)</div><div class="font-bold">${escapeHtml(data.jumlah)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Ukuran</div><div class="font-bold">${escapeHtml(data.ukuran)}</div></div>
+          <div class="border border-white/10 rounded-lg p-4 bg-black/30"><div class="text-xs uppercase tracking-widest text-slateish mb-2">Pengirim</div><div class="font-bold">N6 Running</div></div>
+        </div>
+        <div class="border border-white/10 rounded-lg p-4 bg-black/30 text-xs text-slateish">
+          <p>Pengirim: N6 Running</p>
+          <p>No WA: 0851-4726-7786</p>
+          <p>Kota: Kediri, Jawa Timur</p>
+        </div>
+      `;
+    }
+
+    async function generateOrderJpg(data) {
+      setJpgCardData(data);
+      const canvas = await window.html2canvas(orderJpgCard, { scale: 2, backgroundColor: '#ffffff' });
+      const link = document.createElement('a');
+      const safeName = data.nama.replace(/[^a-zA-Z0-9-_]/g, '-');
+      link.href = canvas.toDataURL('image/jpeg', 0.95);
+      link.download = `Order-Apparel-${safeName || 'N6'}.jpg`;
+      link.click();
+    }
+
+    function sendOrderToWhatsApp(data) {
+      const message = [
+        'Halo, saya ingin pesan apparel.',
+        `Nama: ${data.nama}`,
+        `No WA: ${data.noWa}`,
+        `Alamat: ${data.alamat}`,
+        `Model: ${data.model}`,
+        `Jumlah (Total Order): ${data.jumlah}`,
+        `Ukuran: ${data.ukuran}`,
+        'Pengirim: N6 Running',
+        'No WA Admin: 0851-4726-7786',
+        'Kota: Kediri, Jawa Timur'
+      ].join('\n');
+      window.open(`https://wa.me/6285147267786?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    openOrderModalBtn?.addEventListener('click', openOrderModal);
+    closeOrderModalBtn?.addEventListener('click', closeOrderModal);
+    orderModalBackdrop?.addEventListener('click', closeOrderModal);
+    closePreviewBtn?.addEventListener('click', closePreviewModal);
+    editPreviewBtn?.addEventListener('click', () => {
+      closePreviewModal();
+      openOrderModal();
+    });
+    closeSuccessModalBtn?.addEventListener('click', closeSuccessModal);
+
+    previewModal?.addEventListener('click', (event) => {
+      if (event.target === previewModal) closePreviewModal();
+    });
+    successModal?.addEventListener('click', (event) => {
+      if (event.target === successModal) closeSuccessModal();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !orderModal.classList.contains('hidden')) {
+        closeOrderModal();
+      }
+      if (event.key === 'Escape' && !previewModal.classList.contains('hidden')) {
+        closePreviewModal();
+      }
+      if (event.key === 'Escape' && !successModal.classList.contains('hidden')) {
+        closeSuccessModal();
+      }
+    });
+
+    orderForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = collectOrderData();
+      renderPreview(data);
+      closeOrderModal();
+      openPreviewModal();
+    });
+
+    confirmPreviewBtn?.addEventListener('click', async () => {
+      const data = collectOrderData();
+      latestOrderData = data;
+      await generateOrderJpg(data);
+      closePreviewModal();
+      orderForm.reset();
+      openSuccessModal();
+    });
+
+    sendToWaBtn?.addEventListener('click', () => {
+      if (!latestOrderData) return;
+      sendOrderToWhatsApp(latestOrderData);
+    });
+  </script>
+</body>
+
+</html>
