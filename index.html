@@ -354,6 +354,17 @@
     padding:10px 0; font-size:14px; color:var(--asphalt);
   }
   .modal-single .amt{font-weight:700; color:var(--ink); font-size:16px;}
+  .modal-buy-row{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:10px 0; border-bottom:1px solid var(--line);
+  }
+  .modal-buy-info{display:flex; flex-direction:column; gap:2px; font-size:14px;}
+  .modal-buy-info .amt{font-weight:700; color:var(--ink);}
+  .modal-buy-btn{
+    flex:none; padding:8px 16px; border:1px solid var(--ink); border-radius:2px;
+    font-size:13px; font-weight:700;
+  }
+  .modal-buy-btn:hover{background:var(--ink); color:var(--paper);}
   .modal-total{
     display:flex; align-items:baseline; justify-content:space-between;
     padding-top:16px; margin-top:12px; border-top:1px solid var(--line);
@@ -752,7 +763,7 @@ cocok juga untuk Anda yang ingin mendapatkan nilai terbaik saat tes.</p>
     <h3 id="modalTitle"></h3>
     <p class="modal-desc" id="modalDesc"></p>
     <div class="modal-tiers" id="modalTiers"></div>
-    <div class="modal-total">
+    <div class="modal-total" id="modalTotalWrap">
       <span>Total biaya</span>
       <span class="amt" id="modalPrice"></span>
     </div>
@@ -857,8 +868,18 @@ cocok juga untuk Anda yang ingin mendapatkan nilai terbaik saat tes.</p>
     'run-start': {
       tag: 'ONLINE',
       title: 'Run-Start',
-      desc: 'Program lari online untuk yang baru mulai membangun kebiasaan lari. Panduan latihan terjadwal selama 3 bulan yang bisa diikuti mandiri, dengan tahapan yang naik bertahap.',
-      tiers: [{ label: '3 Bulan', price: 'Rp334.000' }]
+      desc: 'Program lari online 3 bulan dalam format e-course, disusun berdasarkan target waktu 5K masing-masing pelari (kelompok Sub). Pilih kelompok Sub sesuai kemampuanmu saat ini, lalu langsung beli e-course untuk Sub tersebut.',
+      buyList: true,
+      tiers: [
+        { label: 'Sub 38 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/j1p9ofqx?source=chief' },
+        { label: 'Sub 35 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/lvipxl4w?source=chief' },
+        { label: 'Sub 33 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/opc66qiv?source=chief' },
+        { label: 'Sub 30 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/rj5mfvwu?source=chief' },
+        { label: 'Sub 27 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/wu10zzqr?source=chief' },
+        { label: 'Sub 25 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/rj4pxc6l?source=chief' },
+        { label: 'Sub 23 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/r6e4hoyt?source=chief' },
+        { label: 'Sub 20 · 3 Bulan', price: 'Rp334.000', link: 'https://tribeversity.com/course/payment/ocko8jku?source=chief' }
+      ]
     },
     'private-online': {
       tag: 'ONLINE · PRIVATE',
@@ -897,7 +918,9 @@ cocok juga untuk Anda yang ingin mendapatkan nilai terbaik saat tes.</p>
   const modalTitle = document.getElementById('modalTitle');
   const modalDesc = document.getElementById('modalDesc');
   const modalTiers = document.getElementById('modalTiers');
+  const modalTotalWrap = document.getElementById('modalTotalWrap');
   const modalPrice = document.getElementById('modalPrice');
+  const modalCancel = document.getElementById('modalCancel');
   const modalConfirm = document.getElementById('modalConfirm');
   let activeSelection = 0;
 
@@ -917,6 +940,30 @@ cocok juga untuk Anda yang ingin mendapatkan nilai terbaik saat tes.</p>
     modalTitle.textContent = data.title;
     modalDesc.textContent = data.desc;
     modalTiers.innerHTML = '';
+
+    if (data.buyList){
+      modalTotalWrap.style.display = 'none';
+      modalConfirm.style.display = 'none';
+      modalCancel.textContent = 'Tutup';
+      modalCancel.style.flex = '1';
+
+      data.tiers.forEach(tier => {
+        const row = document.createElement('div');
+        row.className = 'modal-buy-row';
+        row.innerHTML = '<div class="modal-buy-info"><span class="label">' + tier.label + '</span><span class="amt">' + tier.price + '</span></div>' +
+          '<a class="modal-buy-btn" href="' + tier.link + '" target="_blank" rel="noopener">Beli</a>';
+        modalTiers.appendChild(row);
+      });
+
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      return;
+    }
+
+    modalTotalWrap.style.display = '';
+    modalConfirm.style.display = '';
+    modalCancel.textContent = 'Batal';
+    modalCancel.style.flex = '';
 
     let currentTier;
     if (options.overrideTier){
