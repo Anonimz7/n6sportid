@@ -9,10 +9,6 @@
       "destination": "/formulir.html"
     },
     {
-      "source": "/index",
-      "destination": "/index.html"
-    },
-    {
       "source": "/coach",
       "destination": "/pages/coach.html"
     },
