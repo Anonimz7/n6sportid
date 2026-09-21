@@ -1,0 +1,48 @@
+{
+  "rewrites": [
+    {
+      "source": "/buat-program",
+      "destination": "/buat-program.html"
+    },
+    {
+      "source": "/formulir",
+      "destination": "/formulir.html"
+    },
+    {
+      "source": "/index",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/coach",
+      "destination": "/pages/coach.html"
+    },
+    {
+      "source": "/formulir-online",
+      "destination": "/pages/formulir-online.html"
+    },
+    {
+      "source": "/tools",
+      "destination": "/pages/tools.html"
+    },
+    {
+      "source": "/kerjasama",
+      "destination": "/kerjasama/n6-kerjasama.html"
+    },
+    {
+      "source": "/n6-kerjasama",
+      "destination": "/kerjasama/n6-kerjasama.html"
+    },
+    {
+      "source": "/rekrutmen-coach",
+      "destination": "/rekrutmen_coach/n6-rekrutmen-coach.html"
+    },
+    {
+      "source": "/n6-rekrutmen-coach",
+      "destination": "/rekrutmen_coach/n6-rekrutmen-coach.html"
+    },
+    {
+      "source": "/penjelasan-program",
+      "destination": "/penjelasan_program/penjelasan-program.html"
+    }
+  ]
+}
